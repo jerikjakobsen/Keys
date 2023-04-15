@@ -9,21 +9,59 @@
 /* Begin PBXBuildFile section */
 		52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F60288A539E00613D33 /* AppDelegate.swift */; };
 		52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F62288A539E00613D33 /* SceneDelegate.swift */; };
-		52B63F65288A539E00613D33 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F64288A539E00613D33 /* ViewController.swift */; };
-		52B63F68288A539E00613D33 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F66288A539E00613D33 /* Main.storyboard */; };
 		52B63F6A288A53A400613D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F69288A53A400613D33 /* Assets.xcassets */; };
 		52B63F6D288A53A400613D33 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F6B288A53A400613D33 /* LaunchScreen.storyboard */; };
+		52B63F75288A540500613D33 /* PasswordFeedViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F74288A540500613D33 /* PasswordFeedViewController.swift */; };
+		52B63F77288A71CF00613D33 /* PasswordFeedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F76288A71CF00613D33 /* PasswordFeedView.swift */; };
+		52B63F79288BDC1100613D33 /* AccountInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F78288BDC1000613D33 /* AccountInfoCell.swift */; };
+		52B63F7B288BDCA700613D33 /* AccountCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F7A288BDCA700613D33 /* AccountCellViewModel.swift */; };
+		52B63F82288D34B100613D33 /* AccountDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F81288D34B100613D33 /* AccountDetailView.swift */; };
+		52B63F84288E37BF00613D33 /* FieldInfoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F83288E37BE00613D33 /* FieldInfoCell.swift */; };
+		52B63F86288E382500613D33 /* FieldInfoCellViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F85288E382500613D33 /* FieldInfoCellViewModel.swift */; };
+		52B63F88288E3BE400613D33 /* ColorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F87288E3BE400613D33 /* ColorConstants.swift */; };
+		52B63F8B288E3C5D00613D33 /* FontConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F8A288E3C5D00613D33 /* FontConstants.swift */; };
+		52B63F8E288E480600613D33 /* CellHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F8D288E480600613D33 /* CellHelpers.swift */; };
+		52B63F90288E53BF00613D33 /* AccountDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F8F288E53BF00613D33 /* AccountDetailViewModel.swift */; };
+		52B63F92288E719300613D33 /* AccountDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F91288E719200613D33 /* AccountDetailViewController.swift */; };
+		52B63F95288F72CB00613D33 /* UIViewExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F94288F72CA00613D33 /* UIViewExtensions.swift */; };
+		52D78E49289BA054005AE462 /* AlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E48289BA054005AE462 /* AlertView.swift */; };
+		52D78E4B289DDF3F005AE462 /* AddAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E4A289DDF3E005AE462 /* AddAccountView.swift */; };
+		52D78E4D289DE308005AE462 /* EditableNewFieldCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E4C289DE308005AE462 /* EditableNewFieldCell.swift */; };
+		52D78E4F289DF9C7005AE462 /* AddAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E4E289DF9C7005AE462 /* AddAccountViewController.swift */; };
+		52D78E51289E05F3005AE462 /* FieldModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E50289E05F3005AE462 /* FieldModel.swift */; };
+		52D78E5428A63352005AE462 /* AccountTitleCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E5328A63352005AE462 /* AccountTitleCell.swift */; };
+		52D78E5628A636B6005AE462 /* FieldValueProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E5528A636B6005AE462 /* FieldValueProtocol.swift */; };
+		52D78E5828A63984005AE462 /* AccountImageSelectorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D78E5728A63984005AE462 /* AccountImageSelectorCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		52B63F5D288A539E00613D33 /* Keys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B63F60288A539E00613D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52B63F62288A539E00613D33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		52B63F64288A539E00613D33 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		52B63F67288A539E00613D33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		52B63F69288A53A400613D33 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		52B63F6C288A53A400613D33 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		52B63F6E288A53A400613D33 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		52B63F74288A540500613D33 /* PasswordFeedViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordFeedViewController.swift; sourceTree = "<group>"; };
+		52B63F76288A71CF00613D33 /* PasswordFeedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordFeedView.swift; sourceTree = "<group>"; };
+		52B63F78288BDC1000613D33 /* AccountInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountInfoCell.swift; sourceTree = "<group>"; };
+		52B63F7A288BDCA700613D33 /* AccountCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountCellViewModel.swift; sourceTree = "<group>"; };
+		52B63F81288D34B100613D33 /* AccountDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailView.swift; sourceTree = "<group>"; };
+		52B63F83288E37BE00613D33 /* FieldInfoCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldInfoCell.swift; sourceTree = "<group>"; };
+		52B63F85288E382500613D33 /* FieldInfoCellViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldInfoCellViewModel.swift; sourceTree = "<group>"; };
+		52B63F87288E3BE400613D33 /* ColorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorConstants.swift; sourceTree = "<group>"; };
+		52B63F8A288E3C5D00613D33 /* FontConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontConstants.swift; sourceTree = "<group>"; };
+		52B63F8D288E480600613D33 /* CellHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellHelpers.swift; sourceTree = "<group>"; };
+		52B63F8F288E53BF00613D33 /* AccountDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailViewModel.swift; sourceTree = "<group>"; };
+		52B63F91288E719200613D33 /* AccountDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountDetailViewController.swift; sourceTree = "<group>"; };
+		52B63F94288F72CA00613D33 /* UIViewExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewExtensions.swift; sourceTree = "<group>"; };
+		52D78E48289BA054005AE462 /* AlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertView.swift; sourceTree = "<group>"; };
+		52D78E4A289DDF3E005AE462 /* AddAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountView.swift; sourceTree = "<group>"; };
+		52D78E4C289DE308005AE462 /* EditableNewFieldCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditableNewFieldCell.swift; sourceTree = "<group>"; };
+		52D78E4E289DF9C7005AE462 /* AddAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAccountViewController.swift; sourceTree = "<group>"; };
+		52D78E50289E05F3005AE462 /* FieldModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldModel.swift; sourceTree = "<group>"; };
+		52D78E5328A63352005AE462 /* AccountTitleCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountTitleCell.swift; sourceTree = "<group>"; };
+		52D78E5528A636B6005AE462 /* FieldValueProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FieldValueProtocol.swift; sourceTree = "<group>"; };
+		52D78E5728A63984005AE462 /* AccountImageSelectorCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountImageSelectorCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,15 +94,106 @@
 		52B63F5F288A539E00613D33 /* Keys */ = {
 			isa = PBXGroup;
 			children = (
-				52B63F60288A539E00613D33 /* AppDelegate.swift */,
-				52B63F62288A539E00613D33 /* SceneDelegate.swift */,
-				52B63F64288A539E00613D33 /* ViewController.swift */,
-				52B63F66288A539E00613D33 /* Main.storyboard */,
+				52B63F93288F72A800613D33 /* Extensions */,
+				52B63F80288C8A6600613D33 /* Views */,
+				52B63F7F288C8A5600613D33 /* Cells */,
+				52B63F7E288C8A4900613D33 /* ViewModels */,
+				52B63F7C288C8A1400613D33 /* ViewControllers */,
+				52B63F7D288C8A2800613D33 /* Delegates */,
+				52B63F89288E3BED00613D33 /* Constants */,
 				52B63F69288A53A400613D33 /* Assets.xcassets */,
 				52B63F6B288A53A400613D33 /* LaunchScreen.storyboard */,
 				52B63F6E288A53A400613D33 /* Info.plist */,
 			);
 			path = Keys;
+			sourceTree = "<group>";
+		};
+		52B63F7C288C8A1400613D33 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F74288A540500613D33 /* PasswordFeedViewController.swift */,
+				52B63F91288E719200613D33 /* AccountDetailViewController.swift */,
+				52D78E4E289DF9C7005AE462 /* AddAccountViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		52B63F7D288C8A2800613D33 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F60288A539E00613D33 /* AppDelegate.swift */,
+				52B63F62288A539E00613D33 /* SceneDelegate.swift */,
+			);
+			path = Delegates;
+			sourceTree = "<group>";
+		};
+		52B63F7E288C8A4900613D33 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F7A288BDCA700613D33 /* AccountCellViewModel.swift */,
+				52B63F85288E382500613D33 /* FieldInfoCellViewModel.swift */,
+				52B63F8F288E53BF00613D33 /* AccountDetailViewModel.swift */,
+				52D78E50289E05F3005AE462 /* FieldModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		52B63F7F288C8A5600613D33 /* Cells */ = {
+			isa = PBXGroup;
+			children = (
+				52D78E5228A63182005AE462 /* AddAccountCreationViewCells */,
+				52B63F8C288E47ED00613D33 /* Helpers */,
+				52B63F78288BDC1000613D33 /* AccountInfoCell.swift */,
+				52B63F83288E37BE00613D33 /* FieldInfoCell.swift */,
+			);
+			path = Cells;
+			sourceTree = "<group>";
+		};
+		52B63F80288C8A6600613D33 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F76288A71CF00613D33 /* PasswordFeedView.swift */,
+				52B63F81288D34B100613D33 /* AccountDetailView.swift */,
+				52D78E48289BA054005AE462 /* AlertView.swift */,
+				52D78E4A289DDF3E005AE462 /* AddAccountView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		52B63F89288E3BED00613D33 /* Constants */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F87288E3BE400613D33 /* ColorConstants.swift */,
+				52B63F8A288E3C5D00613D33 /* FontConstants.swift */,
+			);
+			path = Constants;
+			sourceTree = "<group>";
+		};
+		52B63F8C288E47ED00613D33 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F8D288E480600613D33 /* CellHelpers.swift */,
+			);
+			path = Helpers;
+			sourceTree = "<group>";
+		};
+		52B63F93288F72A800613D33 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				52B63F94288F72CA00613D33 /* UIViewExtensions.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		52D78E5228A63182005AE462 /* AddAccountCreationViewCells */ = {
+			isa = PBXGroup;
+			children = (
+				52D78E4C289DE308005AE462 /* EditableNewFieldCell.swift */,
+				52D78E5328A63352005AE462 /* AccountTitleCell.swift */,
+				52D78E5528A636B6005AE462 /* FieldValueProtocol.swift */,
+				52D78E5728A63984005AE462 /* AccountImageSelectorCell.swift */,
+			);
+			path = AddAccountCreationViewCells;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -127,7 +256,6 @@
 			files = (
 				52B63F6D288A53A400613D33 /* LaunchScreen.storyboard in Resources */,
 				52B63F6A288A53A400613D33 /* Assets.xcassets in Resources */,
-				52B63F68288A539E00613D33 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -138,23 +266,35 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				52B63F65288A539E00613D33 /* ViewController.swift in Sources */,
+				52D78E5628A636B6005AE462 /* FieldValueProtocol.swift in Sources */,
+				52B63F90288E53BF00613D33 /* AccountDetailViewModel.swift in Sources */,
+				52D78E5428A63352005AE462 /* AccountTitleCell.swift in Sources */,
+				52D78E4D289DE308005AE462 /* EditableNewFieldCell.swift in Sources */,
+				52B63F95288F72CB00613D33 /* UIViewExtensions.swift in Sources */,
+				52B63F7B288BDCA700613D33 /* AccountCellViewModel.swift in Sources */,
+				52D78E5828A63984005AE462 /* AccountImageSelectorCell.swift in Sources */,
+				52B63F8B288E3C5D00613D33 /* FontConstants.swift in Sources */,
 				52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */,
 				52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */,
+				52B63F88288E3BE400613D33 /* ColorConstants.swift in Sources */,
+				52D78E4B289DDF3F005AE462 /* AddAccountView.swift in Sources */,
+				52B63F75288A540500613D33 /* PasswordFeedViewController.swift in Sources */,
+				52B63F92288E719300613D33 /* AccountDetailViewController.swift in Sources */,
+				52B63F82288D34B100613D33 /* AccountDetailView.swift in Sources */,
+				52D78E51289E05F3005AE462 /* FieldModel.swift in Sources */,
+				52B63F8E288E480600613D33 /* CellHelpers.swift in Sources */,
+				52B63F79288BDC1100613D33 /* AccountInfoCell.swift in Sources */,
+				52B63F84288E37BF00613D33 /* FieldInfoCell.swift in Sources */,
+				52D78E49289BA054005AE462 /* AlertView.swift in Sources */,
+				52B63F77288A71CF00613D33 /* PasswordFeedView.swift in Sources */,
+				52D78E4F289DF9C7005AE462 /* AddAccountViewController.swift in Sources */,
+				52B63F86288E382500613D33 /* FieldInfoCellViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		52B63F66288A539E00613D33 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				52B63F67288A539E00613D33 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		52B63F6B288A53A400613D33 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -294,7 +434,7 @@
 				INFOPLIST_FILE = Keys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -322,7 +462,7 @@
 				INFOPLIST_FILE = Keys/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
+				INFOPLIST_KEY_UIMainStoryboardFile = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
