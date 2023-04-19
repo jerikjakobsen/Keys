@@ -1,0 +1,10 @@
+{
+  "short_name": "CyberSafe",
+  "name": "CyberSafe",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Click Me",
+    "default_popup": "index.html"
+  }
+}
