@@ -1,11 +1,13 @@
 import React, { useState, ChangeEvent, FormEvent } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/system';
 import './login.css'
 
 const LoginTextField = styled(TextField)({
   padding: '10px',
+  //fontFamily: "'Montserrat', sans-serif"
 });
 
 const LoginPage: React.FC = () => {
@@ -27,9 +29,9 @@ const LoginPage: React.FC = () => {
   };
 
   return (
-    <div>
-      <h1>Login</h1>
-      <form onSubmit={handleSubmit}>
+    <div className="login-div">
+        <Typography variant="h1">CyberSafe</Typography>      
+        <form onSubmit={handleSubmit}>
         <div>
           <LoginTextField
             type="email"
