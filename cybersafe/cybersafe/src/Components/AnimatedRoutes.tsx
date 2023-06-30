@@ -1,6 +1,6 @@
 import React from 'react';
-import LoginPage from '../Login/LoginPage';
-import PasswordsPage from '../Passwords/PasswordsPage';
+import LoginPage from '../Pages/Login/LoginPage';
+import AccountDetailPage from '../Pages/AccountDetailPage/AccountDetailsPage';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import {AnimatePresence} from 'framer-motion'
 
@@ -10,7 +10,7 @@ function AnimatedRoutes() {
   return (
     <AnimatePresence>
         <Routes location={location} key={location.pathname}>
-            <Route path="/" index element={<PasswordsPage />} />
+            <Route path="/" index element={<AccountDetailPage />} />
             <Route path="/login" element={<LoginPage />} />
         </Routes>
     </AnimatePresence>

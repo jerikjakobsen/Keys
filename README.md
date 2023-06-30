@@ -4,7 +4,7 @@ CyberSafe is a password management app that is available both on iOS and as a ch
 
 ### Implementation
 
-To save passwords the Keepass kdbx format was followed. Since there was no package for decrpyting the kdbx format for swift I created my own. The package encrypts and decrypts the kdbx files according to the kdbx format. TO create the iOS app I used swift and to create the Chrome extension I used React.
+To save passwords the Keepass kdbx format was followed. Since there was no package for decrypting the kdbx format for swift I created my own. The package encrypts and decrypts the kdbx files according to the kdbx format. TO create the iOS app I used swift and to create the Chrome extension I used React.
 
 ### To use
 

@@ -1,26 +1,14 @@
 import React from "react"
 import { useState } from "react"
-import AccountField from "./AccountField"
+import AccountField from "../AccountField/AccountField"
 import { Typography } from "@mui/material"
+import { AccountInterface } from "../../Types/Account"
 
-
-export interface Field {
-    name: string,
-    value: string,
-    type: string
-}
-
-export interface AccountInterface {
-    accountName: string,
-    imageURL?: URL,
-    fields: Field[]
-}
-
-export interface AccountProps {
+interface AccountProps {
     account: AccountInterface
 }
 
-export const Account: React.FC<AccountProps> = ({account}) => {
+export const Account = ({account}: AccountProps) => {
 
     return (
         <div className="container">
@@ -29,7 +17,7 @@ export const Account: React.FC<AccountProps> = ({account}) => {
                 <Typography style={{textAlign: "left", padding: "5px"}} component="h1">{account.accountName}</Typography>
                 {
                     account.fields.map((field, index) => (
-                        <AccountField key={index} fieldType={field.name} fieldValue={field.value} type={field.type} />
+                        <AccountField key={index} field={field} />
                     ))
                 }
             </div>

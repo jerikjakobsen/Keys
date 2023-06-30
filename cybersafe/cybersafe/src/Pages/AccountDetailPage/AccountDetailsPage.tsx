@@ -1,33 +1,36 @@
 import React, { useState } from 'react';
-import AccountField from './Components/AccountField';
 import "./PasswordsPage.css"
 import {motion} from 'framer-motion'
-import {Account, AccountInterface, Field} from './Components/Account';
+import {Account} from '../../Components/Account/Account';
+import { AccountInterface } from '../../Types/Account';
 
-const PasswordsPage: React.FC = () => {
+export const AccountDetailPage = () => {
 
-    const [accounts, setAccounts] = useState<AccountInterface[]>([{
+    const acc: AccountInterface = {
         accountName: "Gmail",
         imageURL: new URL("https://cdn2.downdetector.com/static/uploads/c/300/0b9c5/image21.png"),
         fields: [{
             name: "email",
             value: "go4johne@gmail.com",
             type: "email"
-        }]
-    }]);
+        },
+        {
+            name: "username",
+            value: "go4johne",
+            type: "username" 
+        },
+    ],
+        id: "123"
+    }
 
     return (
         <motion.div className="scroller"
         initial={{opacity: 0}}
         animate={{opacity: 1}}
         exit={{opacity: 1}}>
-            {
-                accounts.map((acc) => (
-                    <Account account={acc} />
-                ))
-            }
+            <Account account={acc} />
         </motion.div>
     )
 }
 
-export default PasswordsPage;
+export default AccountDetailPage;
