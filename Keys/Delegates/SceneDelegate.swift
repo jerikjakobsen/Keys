@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window = UIWindow(frame: windowScene.coordinateSpace.bounds)
         window?.windowScene = windowScene
         window?.makeKeyAndVisible()
-        let navigationController = UINavigationController(rootViewController:  PasswordFeedViewController())
+        let navigationController = UINavigationController(rootViewController:  SignInViewController())
         navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: FontConstants.LabelTitle2]
         window?.rootViewController = navigationController
     }

@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52677B722A72F9F300C55D1A /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52677B712A72F9F200C55D1A /* SignInView.swift */; };
+		52677B742A745D1100C55D1A /* SignInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52677B732A745D1000C55D1A /* SignInViewController.swift */; };
+		52677B772A7463BF00C55D1A /* UnderlinedTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52677B762A7463BF00C55D1A /* UnderlinedTextField.swift */; };
 		52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F60288A539E00613D33 /* AppDelegate.swift */; };
 		52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F62288A539E00613D33 /* SceneDelegate.swift */; };
 		52B63F6A288A53A400613D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F69288A53A400613D33 /* Assets.xcassets */; };
@@ -35,6 +38,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		52677B712A72F9F200C55D1A /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
+		52677B732A745D1000C55D1A /* SignInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewController.swift; sourceTree = "<group>"; };
+		52677B762A7463BF00C55D1A /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
 		52B63F5D288A539E00613D33 /* Keys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B63F60288A539E00613D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52B63F62288A539E00613D33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -75,6 +81,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		52677B752A7463A200C55D1A /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				52677B762A7463BF00C55D1A /* UnderlinedTextField.swift */,
+			);
+			path = CustomUI;
+			sourceTree = "<group>";
+		};
 		52B63F54288A539D00613D33 = {
 			isa = PBXGroup;
 			children = (
@@ -94,6 +108,7 @@
 		52B63F5F288A539E00613D33 /* Keys */ = {
 			isa = PBXGroup;
 			children = (
+				52677B752A7463A200C55D1A /* CustomUI */,
 				52B63F93288F72A800613D33 /* Extensions */,
 				52B63F80288C8A6600613D33 /* Views */,
 				52B63F7F288C8A5600613D33 /* Cells */,
@@ -114,6 +129,7 @@
 				52B63F74288A540500613D33 /* PasswordFeedViewController.swift */,
 				52B63F91288E719200613D33 /* AccountDetailViewController.swift */,
 				52D78E4E289DF9C7005AE462 /* AddAccountViewController.swift */,
+				52677B732A745D1000C55D1A /* SignInViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -156,6 +172,7 @@
 				52B63F81288D34B100613D33 /* AccountDetailView.swift */,
 				52D78E48289BA054005AE462 /* AlertView.swift */,
 				52D78E4A289DDF3E005AE462 /* AddAccountView.swift */,
+				52677B712A72F9F200C55D1A /* SignInView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -272,7 +289,10 @@
 				52D78E4D289DE308005AE462 /* EditableNewFieldCell.swift in Sources */,
 				52B63F95288F72CB00613D33 /* UIViewExtensions.swift in Sources */,
 				52B63F7B288BDCA700613D33 /* AccountCellViewModel.swift in Sources */,
+				52677B722A72F9F300C55D1A /* SignInView.swift in Sources */,
+				52677B772A7463BF00C55D1A /* UnderlinedTextField.swift in Sources */,
 				52D78E5828A63984005AE462 /* AccountImageSelectorCell.swift in Sources */,
+				52677B742A745D1100C55D1A /* SignInViewController.swift in Sources */,
 				52B63F8B288E3C5D00613D33 /* FontConstants.swift in Sources */,
 				52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */,
 				52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */,
