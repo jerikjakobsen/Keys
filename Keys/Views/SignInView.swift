@@ -8,8 +8,9 @@
 import Foundation
 import UIKit
 
-@objc protocol SignInViewDelegate {
-    @objc func didTapSignIn(_ button: UIButton, username: String, password: String)
+protocol SignInViewDelegate {
+    func didTapSignIn(_ button: UIButton, username: String, password: String)
+    func didTapCreateAccount(_ button: UIButton)
 }
 
 class SignInView: UIView {
@@ -18,6 +19,7 @@ class SignInView: UIView {
     let usernameTextField: UnderlinedTextField
     let passwordTextField: UnderlinedTextField
     let signInButton: UIButton
+    let createAccountButton: UIButton
     var delegate: SignInViewDelegate?
     
     override init(frame: CGRect) {
@@ -33,14 +35,21 @@ class SignInView: UIView {
         self.signInButton = UIButton()
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.setTitle("Sign In", for: .normal)
-        signInButton.setTitleColor( ColorConstants.textColor, for: .normal)
+        signInButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
+        
+        self.createAccountButton = UIButton()
+        createAccountButton.translatesAutoresizingMaskIntoConstraints = false
+        createAccountButton.setTitle("Create Account", for: .normal)
+        createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
         
         super.init(frame: frame)
         self.addSubview(titleLabel)
         self.addSubview(usernameTextField)
         self.addSubview(passwordTextField)
         self.addSubview(signInButton)
+        self.addSubview(createAccountButton)
         signInButton.addTarget(self, action: #selector(self.didTapSignIn), for: .touchUpInside)
+        createAccountButton.addTarget(self, action: #selector(self.didTapCreateAccount), for: .touchUpInside)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
     
@@ -49,7 +58,7 @@ class SignInView: UIView {
         
         let titleConstraints = [
             titleLabel.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 100),
+            titleLabel.topAnchor.constraint(equalTo: self.topAnchor, constant: 80),
             titleLabel.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             titleLabel.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40)
         ]
@@ -57,7 +66,7 @@ class SignInView: UIView {
         
         let usernameConstraints = [
             usernameTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -20),
+            usernameTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
             usernameTextField.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 10),
             usernameTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             usernameTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
@@ -67,7 +76,7 @@ class SignInView: UIView {
         
         let passwordConstraints = [
             passwordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 20),
+            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 30),
             passwordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
             passwordTextField.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor)
@@ -78,16 +87,28 @@ class SignInView: UIView {
             signInButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             signInButton.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             signInButton.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            signInButton.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -20),
             signInButton.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 20)
         ]
         NSLayoutConstraint.activate(signInButtonConstraints)
+        
+        let createAccountConstraints = [
+            createAccountButton.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            createAccountButton.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
+            createAccountButton.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
+            createAccountButton.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -20),
+            createAccountButton.topAnchor.constraint(equalTo: signInButton.bottomAnchor, constant: 10)
+        ]
+        NSLayoutConstraint.activate(createAccountConstraints)
     }
     
     @objc func didTapSignIn() {
         if let username = self.usernameTextField.text, let password = self.passwordTextField.text {
             delegate?.didTapSignIn(self.signInButton, username: username, password: password)
         }
+    }
+    
+    @objc func didTapCreateAccount() {
+        delegate?.didTapCreateAccount(self.createAccountButton)
     }
     
     required init?(coder: NSCoder) {

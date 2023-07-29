@@ -9,10 +9,6 @@ import Foundation
 import UIKit
 
 @objc class SignInViewController: UIViewController, SignInViewDelegate {
-    @objc func didTapSignIn(_ button: UIButton, username: String, password: String) {
-        //TODO: Check against backend if user can login
-        self.navigationController?.setViewControllers([PasswordFeedViewController()], animated: true)
-    }
     
     var _signInView: SignInView
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
@@ -36,5 +32,14 @@ import UIKit
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func didTapSignIn(_ button: UIButton, username: String, password: String) {
+        //TODO: Check against backend if user can login
+        self.navigationController?.setViewControllers([PasswordFeedViewController()], animated: true)
+    }
+    
+    func didTapCreateAccount(_ button: UIButton) {
+        self.navigationController?.pushViewController(CreateAccountViewController(), animated: true)
     }
 }

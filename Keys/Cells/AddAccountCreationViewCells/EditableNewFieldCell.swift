@@ -94,7 +94,7 @@ extension EditableNewFieldCell {
 
 extension EditableNewFieldCell {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.textColor.cgColor
+        self.fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.TextColor.cgColor
     }
     func textFieldDidEndEditing(_ textField: UITextField) {
         self.fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.GrayColor.cgColor
