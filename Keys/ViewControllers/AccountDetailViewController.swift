@@ -19,7 +19,7 @@ class AccountDetailViewController: UIViewController, UITableViewDelegate, UITabl
         super.init(nibName: nil, bundle: nil)
         _accountDetailView.delegate = self
         _accountDetailView.dataSource = self
-        self.title = viewModel.accountTypeName
+        self.title = viewModel.entry.name.value
         self.view.addSubview(_accountDetailView)
 
         let accountDetailViewLayout = [
@@ -38,12 +38,14 @@ class AccountDetailViewController: UIViewController, UITableViewDelegate, UITabl
 
 extension AccountDetailViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _viewModel.AccountInfo.count
+        return _viewModel.entry.KeyVals.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell: FieldInfoCell = FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell", viewModel: _viewModel.AccountInfo[indexPath.row])
-        cell.setFieldInfoCell(viewModel: _viewModel.AccountInfo[indexPath.row])
+        let cellViewModel = FieldInfoCellViewModel(keyval: _viewModel.entry.KeyVals[indexPath.row])
+        //let cell: FieldInfoCell = FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell", viewModel: cellViewModel)
+        let cell: FieldInfoCell = (tableView.dequeueReusableCell(withIdentifier: "FieldInfoCell") as? FieldInfoCell) ?? FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell", viewModel: cellViewModel)
+        cell.setFieldInfoCell(viewModel: cellViewModel)
         cell._delegate = self
         return cell
     }

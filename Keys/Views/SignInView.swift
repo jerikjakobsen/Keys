@@ -21,6 +21,7 @@ class SignInView: UIView {
     let signInButton: UIButton
     let createAccountButton: UIButton
     var delegate: SignInViewDelegate?
+    var animationView: LoadingAnimation
     
     override init(frame: CGRect) {
         self.delegate = nil
@@ -42,12 +43,15 @@ class SignInView: UIView {
         createAccountButton.setTitle("Create Account", for: .normal)
         createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
         
+        self.animationView = .init()
+        
         super.init(frame: frame)
         self.addSubview(titleLabel)
         self.addSubview(usernameTextField)
         self.addSubview(passwordTextField)
         self.addSubview(signInButton)
         self.addSubview(createAccountButton)
+        self.addSubview(animationView)
         signInButton.addTarget(self, action: #selector(self.didTapSignIn), for: .touchUpInside)
         createAccountButton.addTarget(self, action: #selector(self.didTapCreateAccount), for: .touchUpInside)
         self.translatesAutoresizingMaskIntoConstraints = false
@@ -101,6 +105,12 @@ class SignInView: UIView {
         NSLayoutConstraint.activate(createAccountConstraints)
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let height = self.usernameTextField.frame.minY - self.titleLabel.frame.maxY - 20
+        self.animationView.updateFrame(x: self.frame.width / 2 + self.frame.minX - height/2, y: self.titleLabel.frame.maxY + 10, width: height, height: height)
+    }
+    
     @objc func didTapSignIn() {
         if let username = self.usernameTextField.text, let password = self.passwordTextField.text {
             delegate?.didTapSignIn(self.signInButton, username: username, password: password)
@@ -113,5 +123,13 @@ class SignInView: UIView {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    public func showLoader() {
+        self.animationView.play()
+    }
+    
+    public func hideLoader() {
+        self.animationView.stop()
     }
 }

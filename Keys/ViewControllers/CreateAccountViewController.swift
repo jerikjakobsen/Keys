@@ -37,5 +37,37 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate {
     }
     
     func didTapCreateAccount(_ button: UIButton, username: String, password: String, confirmPassword: String) {
+        
+        self._createAccountView.showLoader()
+        if password != confirmPassword {
+            return
+        }
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsDirectory.appendingPathComponent("\(username.lowercased()).kdbx")
+        let fileManager = FileManager.default
+        if (fileManager.fileExists(atPath: fileURL.path)) {
+            self._createAccountView.hideLoader()
+            let alert = UIAlertController(title: "Unable to Create Database", message: "There already exists a database with that username", preferredStyle: .alert)
+            alert.addAction(.init(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            return
+        }
+        Task.init {
+            do {
+                let db = try KDBX(title: username)
+                
+                let encryptedFileData = try await db.encryptToData(password: password)
+                try encryptedFileData.write(to: fileURL)
+                self._createAccountView.hideLoader()
+                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: db, password: password)], animated: true)
+            } catch {
+                print(error)
+                self._createAccountView.hideLoader()
+                let alert = UIAlertController(title: "Unable to Create Database", message: "", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            }
+        }
     }
 }

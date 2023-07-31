@@ -21,6 +21,7 @@ class CreateAccountView: UIView {
     let confirmPasswordTextField: UnderlinedTextField
     let createAccountButton: UIButton
     var delegate: CreateAccountViewDelegate? = nil
+    var animationView: LoadingAnimation
     
     override init(frame: CGRect) {
         self.titleLabel = UILabel()
@@ -44,6 +45,8 @@ class CreateAccountView: UIView {
         createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
         
+        self.animationView = LoadingAnimation()
+        
         super.init(frame: frame)
         
         self.addSubview(titleLabel)
@@ -52,6 +55,7 @@ class CreateAccountView: UIView {
         self.addSubview(passwordTextField)
         self.addSubview(confirmPasswordTextField)
         self.addSubview(createAccountButton)
+        self.addSubview(animationView)
         createAccountButton.addTarget(self, action: #selector(self.didTapCreateAccount), for: .touchUpInside)
         self.translatesAutoresizingMaskIntoConstraints = false
     }
@@ -112,6 +116,20 @@ class CreateAccountView: UIView {
             createAccountButton.bottomAnchor.constraint(lessThanOrEqualTo: self.bottomAnchor, constant: -20)
         ]
         NSLayoutConstraint.activate(createAccountButtonConstraints)
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        let height = self.usernameTextField.frame.minY - self.createAccountLabel.frame.maxY - 20
+        self.animationView.updateFrame(x: self.frame.width / 2 + self.frame.minX - height/2, y: self.createAccountLabel.frame.maxY + 10, width: height, height: height)
+    }
+    
+    public func showLoader() {
+        self.animationView.play()
+    }
+    
+    public func hideLoader() {
+        self.animationView.stop()
     }
     
     required init?(coder: NSCoder) {

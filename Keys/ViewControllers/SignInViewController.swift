@@ -7,10 +7,13 @@
 
 import Foundation
 import UIKit
+import KDBX
+import Lottie
 
 @objc class SignInViewController: UIViewController, SignInViewDelegate {
     
     var _signInView: SignInView
+    
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         self._signInView = SignInView()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -27,7 +30,6 @@ import UIKit
     }
     convenience init() {
         self.init(nibName: nil, bundle: nil)
-        
     }
     
     required init?(coder: NSCoder) {
@@ -36,7 +38,36 @@ import UIKit
     
     func didTapSignIn(_ button: UIButton, username: String, password: String) {
         //TODO: Check against backend if user can login
-        self.navigationController?.setViewControllers([PasswordFeedViewController()], animated: true)
+        self._signInView.showLoader()
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsDirectory.appendingPathComponent("\(username.lowercased()).kdbx")
+        let fileManager = FileManager.default
+        if (!fileManager.fileExists(atPath: fileURL.path)) {
+            self._signInView.hideLoader()
+            let alert = UIAlertController(title: "Unable to Login", message: "No database found with that username", preferredStyle: .alert)
+            alert.addAction(.init(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            return
+        }
+        Task.init {
+            do {
+                let fileHandle = try FileHandle(forReadingFrom: fileURL)
+                defer { fileHandle.closeFile() }
+
+                let fileData = fileHandle.readDataToEndOfFile()
+               
+                let kdbx = try await KDBX.fromEncryptedData(fileData, password: password)
+                self._signInView.hideLoader()
+                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbx, password: password)], animated: true)
+            } catch {
+                self._signInView.hideLoader()
+                let alert = UIAlertController(title: "Unable to Login", message: "Wrong Credentials", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            }
+        }
+        
     }
     
     func didTapCreateAccount(_ button: UIButton) {

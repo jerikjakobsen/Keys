@@ -7,15 +7,20 @@
 
 import Foundation
 import UIKit
-
+import KDBX
+import XML
 
 class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate  {
     
     var _passwordFeedView: PasswordFeedView
+    private var _kdbxDatabase: KDBX
+    private var _password: String
     //var _searchBarBlur: UIVisualEffectView
     
-    init() {
+    init(kdbx: KDBX, password: String) {
         _passwordFeedView = PasswordFeedView()
+        _kdbxDatabase = kdbx
+        _password = password
         //self._searchBarBlur = UIView.newBlurEffect(view: _passwordFeedView._searchBar)
         //_passwordFeedView._searchBar.insertSubview(_searchBarBlur, at: 1)
 //        NSLayoutConstraint.activate([
@@ -57,11 +62,14 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
 // Table View Delegate
 extension PasswordFeedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return _kdbxDatabase.group.entries.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cellViewModel: AccountCellViewModel = AccountCellViewModel(username: "JohnUsernamelwhdgasljkhaljdkhasldkhashjdalksdbhjkasbd;aklbsdhjabkldjavshjdbaljksdvaksdhbljkagvsdbiluasgdkgasvlbdblasgjkdvaiu;sdvacksdvba;ksdvkaljksjdbasukgdvba;usdgvaksjhdbalisjgvdablskbdvasgjdb;asbdvkabsdi;ualbvsdvbasi;dba", email: "john@gmail.com", accountImage: UIImage(named: "gmail_logo"), accountTypeName: "Gmail")
+        
+        let entry: EntryXML = _kdbxDatabase.group.entries[indexPath.row]
+        
+        let cellViewModel: AccountCellViewModel = AccountCellViewModel(entry: entry)
         let cell: AccountInfoCell = AccountInfoCell(style: .default, reuseIdentifier: "AccountInfoCell", viewModel: cellViewModel)
         return cell
     }
@@ -69,7 +77,7 @@ extension PasswordFeedViewController {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let cell: AccountInfoCell = tableView.cellForRow(at: indexPath) as! AccountInfoCell
         cell.didSelectCell()
-        let accountDetailViewModel: AccountDetailViewModel = AccountDetailViewModel(accountImage: UIImage(named: "gmail_logo"), accountTypeName: "Google", AccountInfo: [FieldInfoCellViewModel(fieldType: "Password", fieldContent: "pa55w0rd", isPassword: true, isCopyable: true, isLink: false),FieldInfoCellViewModel(fieldType: "Username", fieldContent: "Johnjawdajsdjnahjbdjabsdjhabjshdbahbsdjabvsdjbvajhsdbakhbsdkabskdbasbdkjabskjdbajkhsbdkhajbskdabksdbaksjdbaksbdkabsdkjabskhdbaksjbdkahsbdkjabsdkjbakjsd,bakjhsbdkabsdkabskdjabksjdbk", isPassword: false, isCopyable: true, isLink: false)], lastUpdated: Date.now, createdAt: Date.now)
+        let accountDetailViewModel: AccountDetailViewModel = AccountDetailViewModel(entry: cell._viewModel.entry)
         self.navigationController?.pushViewController(AccountDetailViewController(viewModel: accountDetailViewModel), animated: true)
     }
     

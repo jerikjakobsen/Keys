@@ -33,7 +33,16 @@
       "location" : "https://github.com/jerikjakobsen/KDBX",
       "state" : {
         "branch" : "dev",
-        "revision" : "8b8fa775dac49c5c0b432f64a30a8742305c201a"
+        "revision" : "9b8db22711ee7ffa10479ee3c31e632a7a2715c3"
+      }
+    },
+    {
+      "identity" : "lottie-spm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/airbnb/lottie-spm.git",
+      "state" : {
+        "revision" : "60ea4f82fba8b4cb21a75665a889e86ed4d81c6e",
+        "version" : "4.2.0"
       }
     },
     {
