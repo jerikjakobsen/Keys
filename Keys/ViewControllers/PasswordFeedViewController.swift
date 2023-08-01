@@ -15,12 +15,14 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
     var _passwordFeedView: PasswordFeedView
     private var _kdbxDatabase: KDBX
     private var _password: String
+    private var _username: String
     //var _searchBarBlur: UIVisualEffectView
     
-    init(kdbx: KDBX, password: String) {
+    init(kdbx: KDBX, password: String, username: String) {
         _passwordFeedView = PasswordFeedView()
         _kdbxDatabase = kdbx
         _password = password
+        _username = username
         //self._searchBarBlur = UIView.newBlurEffect(view: _passwordFeedView._searchBar)
         //_passwordFeedView._searchBar.insertSubview(_searchBarBlur, at: 1)
 //        NSLayoutConstraint.activate([
@@ -62,6 +64,31 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
     func didCreateEntry(_ entry: EntryXML) {
         self._kdbxDatabase.group.addEntry(entry: entry)
         self._passwordFeedView.reloadData()
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let fileURL = documentsDirectory.appendingPathComponent("\(self._username.lowercased()).kdbx")
+        let fileManager = FileManager.default
+        if (!fileManager.fileExists(atPath: fileURL.path)) {
+            let alert = UIAlertController(title: "Unable to Find Database", message: "Database not found", preferredStyle: .alert)
+            alert.addAction(.init(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            return
+        }
+        Task.init {
+            do {
+                let encryptedFileData = try await self._kdbxDatabase.encryptToData(password: self._password)
+                try encryptedFileData.write(to: fileURL)
+                let alert = UIAlertController(title: "Success!", message: "Saved New Entry", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            } catch {
+                print(error)
+                let alert = UIAlertController(title: "Unable to Save Entry", message: "Something Went Wrong", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            }
+        }
     }
     
 }
@@ -91,16 +118,15 @@ extension PasswordFeedViewController {
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return _passwordFeedView._searchBar
     }
-    
 }
-
-extension PasswordFeedViewController {
-    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard let topCell: UITableViewCell = self._passwordFeedView.cellForRow(at: .init(row: 0, section: 0)) else {return}
-        if (_passwordFeedView._searchBar.frame.minY <= topCell.contentView.frame.minY) {
-            //_searchBarBlur.isHidden = false
-        } else {
-            //_searchBarBlur.isHidden = true
-        }
-    }
-}
+//
+//extension PasswordFeedViewController {
+//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+//        guard let topCell: UITableViewCell = self._passwordFeedView.cellForRow(at: .init(row: 0, section: 0)) else {return}
+//        if (_passwordFeedView._searchBar.frame.minY <= topCell.contentView.frame.minY) {
+//            //_searchBarBlur.isHidden = false
+//        } else {
+//            //_searchBarBlur.isHidden = true
+//        }
+//    }
+//}

@@ -59,7 +59,7 @@ import Lottie
                
                 let kdbx = try await KDBX.fromEncryptedData(fileData, password: password)
                 self._signInView.hideLoader()
-                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbx, password: password)], animated: true)
+                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbx, password: password, username: username)], animated: true)
             } catch {
                 self._signInView.hideLoader()
                 let alert = UIAlertController(title: "Unable to Login", message: "Wrong Credentials", preferredStyle: .alert)

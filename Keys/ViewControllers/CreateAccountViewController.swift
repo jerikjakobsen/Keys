@@ -60,7 +60,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate {
                 let encryptedFileData = try await db.encryptToData(password: password)
                 try encryptedFileData.write(to: fileURL)
                 self._createAccountView.hideLoader()
-                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: db, password: password)], animated: true)
+                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: db, password: password, username: username)], animated: true)
             } catch {
                 print(error)
                 self._createAccountView.hideLoader()
