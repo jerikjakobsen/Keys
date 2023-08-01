@@ -16,6 +16,7 @@
 		52677B792A74784700C55D1A /* CreateAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52677B782A74784700C55D1A /* CreateAccountView.swift */; };
 		52677B7B2A74861A00C55D1A /* CreateAccountViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52677B7A2A74861A00C55D1A /* CreateAccountViewController.swift */; };
 		52677B7E2A74AC0C00C55D1A /* KDBX in Frameworks */ = {isa = PBXBuildFile; productRef = 52677B7D2A74AC0C00C55D1A /* KDBX */; };
+		529E24022A784FEA00950FCE /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E24012A784FEA00950FCE /* UIViewControllerExtensions.swift */; };
 		52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F60288A539E00613D33 /* AppDelegate.swift */; };
 		52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F62288A539E00613D33 /* SceneDelegate.swift */; };
 		52B63F6A288A53A400613D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F69288A53A400613D33 /* Assets.xcassets */; };
@@ -51,6 +52,7 @@
 		52677B762A7463BF00C55D1A /* UnderlinedTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnderlinedTextField.swift; sourceTree = "<group>"; };
 		52677B782A74784700C55D1A /* CreateAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountView.swift; sourceTree = "<group>"; };
 		52677B7A2A74861A00C55D1A /* CreateAccountViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateAccountViewController.swift; sourceTree = "<group>"; };
+		529E24012A784FEA00950FCE /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
 		52B63F5D288A539E00613D33 /* Keys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B63F60288A539E00613D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52B63F62288A539E00613D33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -222,6 +224,7 @@
 			isa = PBXGroup;
 			children = (
 				52B63F94288F72CA00613D33 /* UIViewExtensions.swift */,
+				529E24012A784FEA00950FCE /* UIViewControllerExtensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -338,6 +341,7 @@
 				52B63F82288D34B100613D33 /* AccountDetailView.swift in Sources */,
 				52D78E51289E05F3005AE462 /* FieldModel.swift in Sources */,
 				52B63F8E288E480600613D33 /* CellHelpers.swift in Sources */,
+				529E24022A784FEA00950FCE /* UIViewControllerExtensions.swift in Sources */,
 				52B63F79288BDC1100613D33 /* AccountInfoCell.swift in Sources */,
 				52677B792A74784700C55D1A /* CreateAccountView.swift in Sources */,
 				52B63F84288E37BF00613D33 /* FieldInfoCell.swift in Sources */,

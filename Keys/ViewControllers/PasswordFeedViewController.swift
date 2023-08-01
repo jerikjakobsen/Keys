@@ -10,7 +10,7 @@ import UIKit
 import KDBX
 import XML
 
-class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate  {
+class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, AddAcountViewControllerDelegate  {
     
     var _passwordFeedView: PasswordFeedView
     private var _kdbxDatabase: KDBX
@@ -54,7 +54,14 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
     }
     
     @objc func didTapSettingsBarButton() {
-        self.navigationController?.present(AddAccountViewController(), animated: true, completion: nil)
+        let addAccountViewController = AddAccountViewController()
+        addAccountViewController.delegate = self
+        self.navigationController?.pushViewController(addAccountViewController, animated: true)
+    }
+    
+    func didCreateEntry(_ entry: EntryXML) {
+        self._kdbxDatabase.group.addEntry(entry: entry)
+        self._passwordFeedView.reloadData()
     }
     
 }

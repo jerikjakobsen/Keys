@@ -44,7 +44,7 @@ extension AccountDetailViewController {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cellViewModel = FieldInfoCellViewModel(keyval: _viewModel.entry.KeyVals[indexPath.row])
         //let cell: FieldInfoCell = FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell", viewModel: cellViewModel)
-        let cell: FieldInfoCell = (tableView.dequeueReusableCell(withIdentifier: "FieldInfoCell") as? FieldInfoCell) ?? FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell", viewModel: cellViewModel)
+        let cell: FieldInfoCell = (tableView.dequeueReusableCell(withIdentifier: "FieldInfoCell") as? FieldInfoCell) ?? FieldInfoCell(style: .default, reuseIdentifier: "FieldInfoCell")
         cell.setFieldInfoCell(viewModel: cellViewModel)
         cell._delegate = self
         return cell

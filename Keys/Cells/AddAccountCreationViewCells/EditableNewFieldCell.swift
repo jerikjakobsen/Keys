@@ -7,8 +7,11 @@
 
 import Foundation
 import UIKit
+import XML
 
 class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerViewDelegate, UITextFieldDelegate, FieldValueProtocol {
+    
+    var KeyVal: KeyValXML? = nil
     
     let typePickerOptions: [String] = ["Username", "Email", "Name","Description" , "Password", "Pin", "Recovery Email", "Phone Number", "Website"]
     let fieldTypePickerView: UIPickerView
@@ -18,8 +21,10 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         fieldTypePickerView = UIPickerView()
         fieldTypePickerView.translatesAutoresizingMaskIntoConstraints = false
+        
         fieldTextField = UITextField()
         fieldTextField.translatesAutoresizingMaskIntoConstraints = false
+        
         fieldTextField.placeholder = typePickerOptions[0]
         fieldTextField.backgroundColor = .clear
         fieldTextFieldUnderlineLayer = CALayer()
@@ -50,6 +55,25 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
         self.fieldTypePickerView.delegate = self
         self.fieldTypePickerView.dataSource = self
         self.fieldTextField.delegate = self
+        self.fieldTextField.addTarget(self, action: #selector(self.textFieldTextChanged), for: .allEditingEvents)
+    }
+    
+    func setKeyVal(_ kv: KeyValXML) {
+        guard let row = getMatchingFieldValueRow(kv.key.value) else {
+            return
+        }
+        self.fieldTypePickerView.selectRow(row, inComponent: 0, animated: false)
+        self.fieldTextField.text = kv.value.value
+        self.KeyVal = kv
+    }
+    
+    func getMatchingFieldValueRow(_ val: String) -> Int? {
+        for (i, x) in self.typePickerOptions.enumerated() {
+            if (x == val) {
+                return i
+            }
+        }
+        return nil
     }
     
     required init?(coder: NSCoder) {
@@ -64,6 +88,11 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
     
     func FieldValue() -> Field {
         return Field(fieldType: typePickerOptions[self.fieldTypePickerView.selectedRow(inComponent: 0)], fieldValue: self.fieldTextField.text ?? "")
+    }
+    @objc func textFieldTextChanged() {
+        if let text = self.fieldTextField.text {
+            self.KeyVal?.value.value = text
+        }
     }
 }
 
@@ -89,6 +118,7 @@ extension EditableNewFieldCell {
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         self.fieldTextField.placeholder = typePickerOptions[row]
+        self.KeyVal?.key.value = typePickerOptions[row]
     }
 }
 

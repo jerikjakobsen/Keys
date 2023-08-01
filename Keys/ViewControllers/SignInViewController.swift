@@ -27,6 +27,7 @@ import Lottie
             _signInView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ]
         NSLayoutConstraint.activate(viewConstraints)
+        self.hideKeyboardWhenTapped()
     }
     convenience init() {
         self.init(nibName: nil, bundle: nil)

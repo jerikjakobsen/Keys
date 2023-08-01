@@ -17,6 +17,7 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate {
         self._createAccountView = CreateAccountView()
         super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
         self._createAccountView.delegate = self
+        self.hideKeyboardWhenTapped()
     }
     
     convenience init() {
