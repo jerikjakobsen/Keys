@@ -1,0 +1,3 @@
+./server/node_modules
+./mongo/mongo_db
+.env
