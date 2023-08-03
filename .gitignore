@@ -88,3 +88,4 @@ fastlane/test_output
 # https://github.com/johnno1962/injectionforxcode
 
 iOSInjectionProject/
+Keys_Backend/mongo/mongodb_data/.mongodb/mongosh/64cad1c64c12b9b0537dfaf0_log
