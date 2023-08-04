@@ -15,7 +15,6 @@ export async function argonHash(password: string, salt: string): Promise<string>
         secret: secretBuffer,
         salt: Buffer.from(salt)
     }
-    console.log(options)
 
     let hashedPasswordBuffer: Buffer = await hash(password, options)
     let hashedPassword = hashedPasswordBuffer.toString('base64')

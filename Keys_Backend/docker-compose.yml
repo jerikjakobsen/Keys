@@ -49,6 +49,8 @@ services:
     command: /bin/sh -c "redis-server --requirepass $$REDIS_SECRET --port $$REDIS_PORT"
     ports:
       - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - ./redis/data:/data
     env_file:
       - .env
     networks:

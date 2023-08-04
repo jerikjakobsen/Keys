@@ -1,6 +1,5 @@
 import { S3Client } from "@aws-sdk/client-s3"
 import {Upload} from '@aws-sdk/lib-storage'
-import Busboy from "busboy"
 import { Stream } from "stream"
 import {Request, Response} from "express"
 require("dotenv").config()
