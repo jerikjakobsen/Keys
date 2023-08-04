@@ -28,6 +28,7 @@ export default async function createAccount(req: Request, res: Response) {
         })
         if (user) {
             req.session.isAuthenticated = true
+            req.session.userID = user._id
         }
         return res.status(201).json({"user_id": user._id})
     } catch (err) {

@@ -17,6 +17,7 @@ export default async function login(req: Request, res: Response) {
             let hashedPassword: String = await argonHash(password, salt!)
             if (user.hash == hashedPassword) {
                 req.session.isAuthenticated = true
+                req.session.userID = user._id
                 return res.status(200).json({"user_id": user._id})
             } else {
                 return res.status(400).json({"Error": "Could not find user"})
