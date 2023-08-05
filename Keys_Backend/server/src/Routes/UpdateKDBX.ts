@@ -27,9 +27,9 @@ export default async function updateKDBX(req: Request, res: Response) {
         })
 
         await uploadToS3.done()
-        res.status(200).json({"message": "Uploaded Successfully"})
+        return res.status(200).json({"message": "Uploaded Successfully"})
     } catch (err) {
         console.log(err)
-        res.status(500).json({"message": "Something went wrong on our end!"})
+        return res.status(500).json({"message": "Something went wrong on our end!"})
     }
 }

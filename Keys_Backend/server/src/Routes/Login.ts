@@ -7,7 +7,7 @@ export default async function login(req: Request, res: Response) {
     const {username, password} = req.body
 
     if (!username || !password) {
-        res.status(400).json({"message": "Not all fields included in request"})
+        return res.status(400).json({"message": "Not all fields included in request"})
     }
     
     try {
