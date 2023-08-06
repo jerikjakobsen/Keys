@@ -27,6 +27,9 @@ export default async function getKDBX(req: Request, res: Response) {
         const updatedAtSeconds = user.dbUpdatedAt.getTime() / 1000
         
         let fileObject = await s3Client.send(command)
+        if (fileObject.$metadata.httpStatusCode !== 200) {
+            return res.status(404)
+        }
         let fileStream = fileObject.Body as Readable
         res.appendHeader('content-type', 'application/octet-stream')
         res.appendHeader('dbUpdatedAt', String(updatedAtSeconds))

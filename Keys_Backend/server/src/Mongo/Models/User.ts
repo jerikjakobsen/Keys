@@ -32,7 +32,9 @@ const UserSchema = new Schema<User>({
     },
     dbUpdatedAt: {
         type: Date,
-        required: [true, "dbUpdatedAt cannot be empty"]
+        default: (): Date => {
+            return new Date(0)
+        }
     }
 }, {timestamps: true})
 
