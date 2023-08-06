@@ -12,12 +12,16 @@ export default async function login(req: Request, res: Response) {
     
     try {
         let user = await UserModel.findOne({username: username})
-        let salt = user?.salt
+        let {salt, dbUpdatedAt} = user!
+        const updatedAtSeconds = dbUpdatedAt.getTime() / 1000
+        
         if (user) {
             let hashedPassword: String = await argonHash(password, salt!)
             if (user.hash == hashedPassword) {
                 req.session.isAuthenticated = true
                 req.session.userID = user._id
+                res.appendHeader('dbUpdatedAt', String(updatedAtSeconds))
+                
                 return res.status(200).json({"user_id": user._id})
             } else {
                 return res.status(400).json({"Error": "Could not find user"})

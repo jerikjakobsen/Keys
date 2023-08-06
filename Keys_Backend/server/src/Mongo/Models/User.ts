@@ -5,6 +5,7 @@ export interface User extends Document {
     email: string;
     hash: string;
     salt: string;
+    dbUpdatedAt: Date;
   }
 
 const UserSchema = new Schema<User>({
@@ -28,6 +29,10 @@ const UserSchema = new Schema<User>({
     salt: {
         type: String,
         required: [true, "Salt cannot be blank"]
+    },
+    dbUpdatedAt: {
+        type: Date,
+        required: [true, "dbUpdatedAt cannot be empty"]
     }
 }, {timestamps: true})
 
