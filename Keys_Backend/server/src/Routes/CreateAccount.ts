@@ -5,23 +5,22 @@ import {randomBytes} from 'crypto'
 
 export default async function createAccount(req: Request, res: Response) {
 
-    const {username, password, email} = req.body
+    const {password, email} = req.body
 
-    if (!username || !password || !email) {
+    if (!password || !email) {
         return res.status(400).json({"message": "Not all fields included in request"})
     }
 
     try {
         
-        if (await UserModel.exists({username: username})) {
-            return res.status(409).json({"message": "Username already exists"})
+        if (await UserModel.exists({email: email})) {
+            return res.status(409).json({"message": "Email already exists"})
         }
         let salt = randomBytes(32).toString('base64')
 
         let hashedPassword: String = await argonHash(password, salt)
 
         let user = await UserModel.create({
-            username,
             email,
             hash: hashedPassword,
             salt

@@ -4,14 +4,14 @@ import {argonHash} from "../PasswordManagement/Hash"
 
 export default async function login(req: Request, res: Response) {
 
-    const {username, password} = req.body
+    const {email, password} = req.body
 
-    if (!username || !password) {
+    if (!email || !password) {
         return res.status(400).json({"message": "Not all fields included in request"})
     }
     
     try {
-        let user = await UserModel.findOne({username: username})
+        let user = await UserModel.findOne({email: email})
         let {salt, dbUpdatedAt} = user!
         const updatedAtSeconds = dbUpdatedAt.getTime() / 1000
         
