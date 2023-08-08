@@ -15,7 +15,6 @@ db.createCollection('users');
 
 db.users.insertOne(
   {
-    username: 'test',
     hash: '123445',
     email: 'test@test.com'
   }
