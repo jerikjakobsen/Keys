@@ -14,23 +14,11 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
     
     var _passwordFeedView: PasswordFeedView
     private var _kdbxDatabase: KDBX
-    private var _password: String
-    private var _username: String
-    //var _searchBarBlur: UIVisualEffectView
     
-    init(kdbx: KDBX, password: String, username: String) {
+    init(kdbx: KDBX) {
         _passwordFeedView = PasswordFeedView()
         _kdbxDatabase = kdbx
-        _password = password
-        _username = username
-        //self._searchBarBlur = UIView.newBlurEffect(view: _passwordFeedView._searchBar)
-        //_passwordFeedView._searchBar.insertSubview(_searchBarBlur, at: 1)
-//        NSLayoutConstraint.activate([
-//            _searchBarBlur.topAnchor.constraint(equalTo: _passwordFeedView._searchBar.topAnchor),
-//            _searchBarBlur.leadingAnchor.constraint(equalTo: _passwordFeedView._searchBar.leadingAnchor),
-//            _searchBarBlur.heightAnchor.constraint(equalTo: _passwordFeedView._searchBar.heightAnchor),
-//            _searchBarBlur.widthAnchor.constraint(equalTo: _passwordFeedView._searchBar.widthAnchor)
-//        ])
+
         super.init(nibName: nil, bundle: nil)
         self.view.addSubview(_passwordFeedView)
         
@@ -47,8 +35,16 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
         self.title = "Accounts"
     }
     
+    convenience init(_ d: Bool = false) async throws {
+        guard let kdbx = try await NetworkManager.shared?.syncKDBX() else {
+            throw NetworkHandlerError.UnableToSync
+        }
+        self.init(kdbx: kdbx)
+    }
+    
     override func viewDidLoad() {
         self.navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "plus.app"), style: .plain , target: self, action: #selector(didTapSettingsBarButton))
+        self.navigationItem.leftBarButtonItem = UIBarButtonItem(title: "Logout", style: .plain , target: self, action: #selector(didTapLogoutButton))
     }
     
     required init?(coder: NSCoder) {
@@ -61,22 +57,17 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
         self.navigationController?.pushViewController(addAccountViewController, animated: true)
     }
     
+    @objc func didTapLogoutButton() {
+        self.navigationController?.setViewControllers([SignInViewController()], animated: true)
+    }
+    
     func didCreateEntry(_ entry: EntryXML) {
         self._kdbxDatabase.group.addEntry(entry: entry)
         self._passwordFeedView.reloadData()
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsDirectory.appendingPathComponent("\(self._username.lowercased()).kdbx")
-        let fileManager = FileManager.default
-        if (!fileManager.fileExists(atPath: fileURL.path)) {
-            let alert = UIAlertController(title: "Unable to Find Database", message: "Database not found", preferredStyle: .alert)
-            alert.addAction(.init(title: "OK", style: .default))
-            self.present(alert, animated: true)
-            return
-        }
         Task.init {
+            
             do {
-                let encryptedFileData = try await self._kdbxDatabase.encryptToData(password: self._password)
-                try encryptedFileData.write(to: fileURL)
+                try await NetworkManager.shared?.saveKDBX(self._kdbxDatabase)
                 let alert = UIAlertController(title: "Success!", message: "Saved New Entry", preferredStyle: .alert)
                 alert.addAction(.init(title: "OK", style: .default))
                 self.present(alert, animated: true)

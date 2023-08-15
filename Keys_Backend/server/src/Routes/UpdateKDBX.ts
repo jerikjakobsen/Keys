@@ -7,19 +7,20 @@ require("dotenv").config()
 import UploadMessages from "./Messages/UploadMessages";
 
 export default async function updateKDBX(req: Request, res: Response) {
-
+    console.log(req.headers)
     const {isAuthenticated, userID} = req.session
-    let {dateUpdated, overwrite} = req.query
+    let {dbUpdatedAt} = req.headers
+    let {overwrite} = req.query
 
     if (!isAuthenticated || !userID) {
         return res.status(401).json({"message": "User is not authenticated"})
     }
 
-    if (!dateUpdated) {
-        dateUpdated = Date.now().toString()
+    if (!dbUpdatedAt) {
+        dbUpdatedAt = Date.now().toString()
     }
 
-    let dateConvertedToNumber = Number(dateUpdated)
+    let dateConvertedToNumber = Number(dbUpdatedAt)
 
     let user = await UserModel.findById(userID)
     if (!user) {

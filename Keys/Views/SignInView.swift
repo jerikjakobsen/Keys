@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 protocol SignInViewDelegate {
-    func didTapSignIn(_ button: UIButton, username: String, password: String)
+    func didTapSignIn(_ button: UIButton, email: String, password: String)
     func didTapCreateAccount(_ button: UIButton)
 }
 
 class SignInView: UIView {
     
     let titleLabel: UILabel
-    let usernameTextField: UnderlinedTextField
+    let emailTextField: UnderlinedTextField
     let passwordTextField: UnderlinedTextField
     let signInButton: UIButton
     let createAccountButton: UIButton
@@ -30,7 +30,7 @@ class SignInView: UIView {
         titleLabel.text = "Keys"
         titleLabel.font = FontConstants.LabelTitle1
         
-        self.usernameTextField = UnderlinedTextField(placeholder: "Username")
+        self.emailTextField = UnderlinedTextField(placeholder: "Username")
         self.passwordTextField = UnderlinedTextField(placeholder: "Password")
         
         self.signInButton = UIButton()
@@ -47,7 +47,7 @@ class SignInView: UIView {
         
         super.init(frame: frame)
         self.addSubview(titleLabel)
-        self.addSubview(usernameTextField)
+        self.addSubview(emailTextField)
         self.addSubview(passwordTextField)
         self.addSubview(signInButton)
         self.addSubview(createAccountButton)
@@ -68,22 +68,22 @@ class SignInView: UIView {
         ]
         NSLayoutConstraint.activate(titleConstraints)
         
-        let usernameConstraints = [
-            usernameTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
-            usernameTextField.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 10),
-            usernameTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
-            usernameTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            usernameTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
+        let emailConstraints = [
+            emailTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            emailTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
+            emailTextField.topAnchor.constraint(greaterThanOrEqualTo: titleLabel.bottomAnchor, constant: 10),
+            emailTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
+            emailTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
+            emailTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
         ]
-        NSLayoutConstraint.activate(usernameConstraints)
+        NSLayoutConstraint.activate(emailConstraints)
         
         let passwordConstraints = [
             passwordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 30),
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
             passwordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            passwordTextField.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor)
+            passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor)
         ]
         NSLayoutConstraint.activate(passwordConstraints)
         
@@ -107,13 +107,13 @@ class SignInView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let height = self.usernameTextField.frame.minY - self.titleLabel.frame.maxY - 20
+        let height = self.emailTextField.frame.minY - self.titleLabel.frame.maxY - 20
         self.animationView.updateFrame(x: self.frame.width / 2 + self.frame.minX - height/2, y: self.titleLabel.frame.maxY + 10, width: height, height: height)
     }
     
     @objc func didTapSignIn() {
-        if let username = self.usernameTextField.text, let password = self.passwordTextField.text {
-            delegate?.didTapSignIn(self.signInButton, username: username, password: password)
+        if let email = self.emailTextField.text, let password = self.passwordTextField.text {
+            delegate?.didTapSignIn(self.signInButton, email: email, password: password)
         }
     }
     

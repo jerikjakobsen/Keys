@@ -24,7 +24,7 @@ export default async function getKDBX(req: Request, res: Response) {
             Bucket: process.env.AWS_BUCKET,
             Key: userID
         })
-        const updatedAtSeconds = user.dbUpdatedAt.getTime() / 1000
+        const updatedAtSeconds = Math.trunc(user.dbUpdatedAt.getTime() / 1000)
         
         let fileObject = await s3Client.send(command)
         if (fileObject.$metadata.httpStatusCode !== 200) {

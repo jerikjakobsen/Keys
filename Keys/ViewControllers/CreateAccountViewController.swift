@@ -37,33 +37,53 @@ class CreateAccountViewController: UIViewController, CreateAccountViewDelegate {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func didTapCreateAccount(_ button: UIButton, username: String, password: String, confirmPassword: String) {
+    func didTapCreateAccount(_ button: UIButton, email: String, password: String, confirmPassword: String) {
         
-        self._createAccountView.showLoader()
-        if password != confirmPassword {
-            return
-        }
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsDirectory.appendingPathComponent("\(username.lowercased()).kdbx")
-        let fileManager = FileManager.default
-        if (fileManager.fileExists(atPath: fileURL.path)) {
-            self._createAccountView.hideLoader()
-            let alert = UIAlertController(title: "Unable to Create Database", message: "There already exists a database with that username", preferredStyle: .alert)
+        let emailLowercase = email.lowercased()
+        
+        if let errorMessage = CredentialHelpers.verifyCreationCredentials(email: emailLowercase, password: password, confirmPassword: confirmPassword) {
+            let alert = UIAlertController(title: "Unable to create account", message: errorMessage, preferredStyle: .alert)
             alert.addAction(.init(title: "OK", style: .default))
             self.present(alert, animated: true)
             return
         }
+        
+        self._createAccountView.showLoader()
+//        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+//        let fileURL = documentsDirectory.appendingPathComponent("\(email.lowercased()).kdbx")
+//        let fileManager = FileManager.default
+//        if (fileManager.fileExists(atPath: fileURL.path)) {
+//            self._createAccountView.hideLoader()
+//            let alert = UIAlertController(title: "Unable to Create Database", message: "There already exists a database with that username", preferredStyle: .alert)
+//            alert.addAction(.init(title: "OK", style: .default))
+//            self.present(alert, animated: true)
+//            return
+//        }
         Task.init {
-            do {
-                let db = try KDBX(title: username)
-                
-                let encryptedFileData = try await db.encryptToData(password: password)
-                try encryptedFileData.write(to: fileURL)
+            defer {
                 self._createAccountView.hideLoader()
-                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: db, password: password, username: username)], animated: true)
+            }
+            do {
+                guard let nm = NetworkManager.shared else {
+                    let alert = UIAlertController(title: "Unable to create an account", message: "Something went wrong", preferredStyle: .alert)
+                    alert.addAction(.init(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                    return
+                }
+                
+                let response = try await nm.createAccount(email: email, password: password)
+                if let errorMessage = response {
+                    self._createAccountView.hideLoader()
+                    let alert = UIAlertController(title: "Unable to create an account", message: errorMessage, preferredStyle: .alert)
+                    alert.addAction(.init(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                    return
+                }
+                
+                let db = try KDBX(title: email)
+                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: db)], animated: true)
             } catch {
                 print(error)
-                self._createAccountView.hideLoader()
                 let alert = UIAlertController(title: "Unable to Create Database", message: "", preferredStyle: .alert)
                 alert.addAction(.init(title: "OK", style: .default))
                 self.present(alert, animated: true)

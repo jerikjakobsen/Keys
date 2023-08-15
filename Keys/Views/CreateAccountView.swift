@@ -9,14 +9,14 @@ import Foundation
 import UIKit
 
 protocol CreateAccountViewDelegate {
-    func didTapCreateAccount(_ button: UIButton, username: String, password: String, confirmPassword: String)
+    func didTapCreateAccount(_ button: UIButton, email: String, password: String, confirmPassword: String)
 }
 
 class CreateAccountView: UIView {
     
     let titleLabel: UILabel
     let createAccountLabel: UILabel
-    let usernameTextField: UnderlinedTextField
+    let emailTextField: UnderlinedTextField
     let passwordTextField: UnderlinedTextField
     let confirmPasswordTextField: UnderlinedTextField
     let createAccountButton: UIButton
@@ -37,7 +37,7 @@ class CreateAccountView: UIView {
         createAccountLabel.numberOfLines = 0
         createAccountLabel.textAlignment = .center
         
-        self.usernameTextField = UnderlinedTextField(placeholder: "Username")
+        self.emailTextField = UnderlinedTextField(placeholder: "Email")
         self.passwordTextField = UnderlinedTextField(placeholder: "Password")
         self.confirmPasswordTextField = UnderlinedTextField(placeholder: "Confirm Password")
         self.createAccountButton = UIButton()
@@ -51,7 +51,7 @@ class CreateAccountView: UIView {
         
         self.addSubview(titleLabel)
         self.addSubview(createAccountLabel)
-        self.addSubview(usernameTextField)
+        self.addSubview(emailTextField)
         self.addSubview(passwordTextField)
         self.addSubview(confirmPasswordTextField)
         self.addSubview(createAccountButton)
@@ -79,22 +79,22 @@ class CreateAccountView: UIView {
         ]
         NSLayoutConstraint.activate(createAccountLabelConstraints)
         
-        let usernameTextFieldConstraints = [
-            usernameTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            usernameTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
-            usernameTextField.topAnchor.constraint(greaterThanOrEqualTo: createAccountLabel.bottomAnchor, constant: 10),
-            usernameTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
-            usernameTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            usernameTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
+        let emailTextFieldConstraints = [
+            emailTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+            emailTextField.centerYAnchor.constraint(equalTo: self.centerYAnchor, constant: -60),
+            emailTextField.topAnchor.constraint(greaterThanOrEqualTo: createAccountLabel.bottomAnchor, constant: 10),
+            emailTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
+            emailTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
+            emailTextField.widthAnchor.constraint(equalTo: self.widthAnchor, multiplier: 0.6)
         ]
-        NSLayoutConstraint.activate(usernameTextFieldConstraints)
+        NSLayoutConstraint.activate(emailTextFieldConstraints)
         
         let passwordTextFieldConstraints = [
             passwordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
-            passwordTextField.topAnchor.constraint(equalTo: usernameTextField.bottomAnchor, constant: 30),
+            passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
             passwordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
             passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            passwordTextField.widthAnchor.constraint(equalTo: usernameTextField.widthAnchor)
+            passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor)
         ]
         NSLayoutConstraint.activate(passwordTextFieldConstraints)
         
@@ -120,7 +120,7 @@ class CreateAccountView: UIView {
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let height = self.usernameTextField.frame.minY - self.createAccountLabel.frame.maxY - 20
+        let height = self.emailTextField.frame.minY - self.createAccountLabel.frame.maxY - 20
         self.animationView.updateFrame(x: self.frame.width / 2 + self.frame.minX - height/2, y: self.createAccountLabel.frame.maxY + 10, width: height, height: height)
     }
     
@@ -137,8 +137,8 @@ class CreateAccountView: UIView {
     }
     
     @objc func didTapCreateAccount() {
-        if let username = self.usernameTextField.text, let password = self.passwordTextField.text, let confirmPassword = self.confirmPasswordTextField.text {
-            delegate?.didTapCreateAccount(self.createAccountButton, username: username, password: password, confirmPassword: confirmPassword)
+        if let email = self.emailTextField.text, let password = self.passwordTextField.text, let confirmPassword = self.confirmPasswordTextField.text {
+            delegate?.didTapCreateAccount(self.createAccountButton, email: email, password: password, confirmPassword: confirmPassword)
         }
     }
 }

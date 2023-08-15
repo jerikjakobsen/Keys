@@ -37,31 +37,46 @@ import Lottie
         fatalError("init(coder:) has not been implemented")
     }
     
-    func didTapSignIn(_ button: UIButton, username: String, password: String) {
+    func didTapSignIn(_ button: UIButton, email: String, password: String) {
+        
         //TODO: Check against backend if user can login
         self._signInView.showLoader()
-        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let fileURL = documentsDirectory.appendingPathComponent("\(username.lowercased()).kdbx")
-        let fileManager = FileManager.default
-        if (!fileManager.fileExists(atPath: fileURL.path)) {
-            self._signInView.hideLoader()
-            let alert = UIAlertController(title: "Unable to Login", message: "No database found with that username", preferredStyle: .alert)
-            alert.addAction(.init(title: "OK", style: .default))
-            self.present(alert, animated: true)
-            return
-        }
-        Task.init {
+        Task {
+            defer {
+                self._signInView.hideLoader()
+            }
             do {
-                let fileHandle = try FileHandle(forReadingFrom: fileURL)
-                defer { fileHandle.closeFile() }
-
-                let fileData = fileHandle.readDataToEndOfFile()
-               
-                let kdbx = try await KDBX.fromEncryptedData(fileData, password: password)
-                self._signInView.hideLoader()
-                self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbx, password: password, username: username)], animated: true)
+                guard let nm = NetworkManager.shared else {
+                    let alert = UIAlertController(title: "Unable to Login", message: "Something went wrong", preferredStyle: .alert)
+                    alert.addAction(.init(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                    return
+                }
+                let (error, kdbx) = try await nm.login(email: email, password: password)
+                if let errorNotNil = error {
+                    if let kdbxNotNil = kdbx {
+                        let alert = UIAlertController(title: "", message: error, preferredStyle: .alert)
+                        alert.addAction(.init(title: "Open Database", style: .default, handler: { action in
+                            self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbxNotNil)], animated: true)
+                        }))
+                        self.present(alert, animated: true)
+                        return
+                    }
+                    let alert = UIAlertController(title: "Unable to Login", message: errorNotNil, preferredStyle: .alert)
+                    alert.addAction(.init(title: "OK", style: .default))
+                    self.present(alert, animated: true)
+                    return
+                }
+                if let kdbxNotNil = kdbx {
+                    // In this case the network was down and the user had a local databse, so we resorted to that database instead
+                    self.navigationController?.setViewControllers([PasswordFeedViewController(kdbx: kdbxNotNil)], animated: true)
+                } else {
+                    // In this case the user passed the authentication, however we still need to fetch the servers database (if necessary)
+                    let passwordFeedController = try await PasswordFeedViewController()
+                    self.navigationController?.setViewControllers([passwordFeedController], animated: true)
+                }
             } catch {
-                self._signInView.hideLoader()
+                print(error)
                 let alert = UIAlertController(title: "Unable to Login", message: "Wrong Credentials", preferredStyle: .alert)
                 alert.addAction(.init(title: "OK", style: .default))
                 self.present(alert, animated: true)

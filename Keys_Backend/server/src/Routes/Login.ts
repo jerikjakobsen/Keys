@@ -13,8 +13,8 @@ export default async function login(req: Request, res: Response) {
     try {
         let user = await UserModel.findOne({email: email})
         let {salt, dbUpdatedAt} = user!
-        const updatedAtSeconds = dbUpdatedAt.getTime() / 1000
-        
+        const updatedAtSeconds = Math.trunc((dbUpdatedAt.getTime() / 1000))
+        console.log(String(updatedAtSeconds))
         if (user) {
             let hashedPassword: String = await argonHash(password, salt!)
             if (user.hash == hashedPassword) {
