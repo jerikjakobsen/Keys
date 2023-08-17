@@ -6,11 +6,12 @@
 //
 
 import Foundation
+import XML
 
 struct FieldInfoCellViewModel {
-    var fieldType: String
-    var fieldContent: String
-    var isPassword: Bool
-    var isCopyable: Bool
-    var isLink: Bool
+    var keyVal: KeyValXML
+    
+    init(keyval: KeyValXML) {
+        self.keyVal = keyval
+    }
 }

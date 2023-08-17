@@ -1,0 +1,76 @@
+version: '3.8'
+
+services:
+  keys-db:
+    build:
+      context: ./mongo/
+      dockerfile: Dockerfile
+    restart: always
+    container_name: keys-db
+    environment:
+      - MONGO_DB_USER=${MONGO_DB_USER}
+      - MONGO_DB_PASSWORD=${MONGO_DB_PASSWORD}
+      - MONGO_DB_BACKEND_PERMISSIONS=${MONGO_DB_BACKEND_PERMISSIONS}
+      - MONGO_DB_HOST=${MONGO_DB_HOST}
+      - MONGO_DB_PORT=${MONGO_DB_PORT}
+      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
+      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_DATABASE=keys
+    ports:
+      - ${MONGO_DB_PORT}:27017
+    env_file:
+      - .env
+    volumes:
+      - ./mongo/mongodb_data:/data/db
+      - ./mongo/docker-entrypoint-initdb.d/init-mongo.js:/docker-entrypoint-initdb.d/init-mongo.js:ro
+    depends_on:
+      - keys-redis
+    networks:
+      - mongo-network
+
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 2000:8081
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@keys-db:27017
+    depends_on:
+      - keys-db
+    networks:
+      - mongo-network
+
+  keys-redis:
+    image: redis:alpine
+    restart: always
+    container_name: keys-redis
+    environment:
+      - REDIS_SECRET=${REDIS_SECRET}
+    command: /bin/sh -c "redis-server --requirepass $$REDIS_SECRET --port $$REDIS_PORT"
+    ports:
+      - ${REDIS_PORT}:${REDIS_PORT}
+    volumes:
+      - ./redis/data:/data
+    env_file:
+      - .env
+    networks:
+      - mongo-network
+
+  node-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    depends_on:
+      - keys-db
+    volumes:
+      - ./server/src:/app/src
+    ports:
+      - ${NODE_SERVER_PORT}:${NODE_SERVER_PORT}
+    networks:
+    - mongo-network
+
+networks:
+    mongo-network:
+      driver: bridge

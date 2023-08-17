@@ -7,11 +7,12 @@
 
 import Foundation
 import UIKit
+import XML
 
 struct AccountDetailViewModel {
-    var accountImage: UIImage?
-    var accountTypeName: String
-    var AccountInfo: [FieldInfoCellViewModel]
-    var lastUpdated: Date
-    var createdAt: Date
+    var entry: EntryXML
+    
+    init(entry: EntryXML) {
+        self.entry = entry
+    }
 }

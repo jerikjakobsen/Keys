@@ -7,14 +7,21 @@
 
 import Foundation
 import UIKit
+import XML
 
-class AddAccountViewController: UIViewController, UINavigationControllerDelegate {
+protocol AddAcountViewControllerDelegate {
+    func didCreateEntry(_ entry: EntryXML)
+}
+
+class AddAccountViewController: UIViewController, UINavigationControllerDelegate, AccountTitleCellDelegate {
     
     let addAccountView: AddAccountView
-    var fields: [Field] = []
+    var accountName: String = ""
+    var fields: [KeyValXML] = []
     var cellToDelete: EditableNewFieldCell?
     let imageSelector: UIImagePickerController
     var selectedAccountImage: UIImage?
+    var delegate: AddAcountViewControllerDelegate? = nil
     
     init() {
         imageSelector = UIImagePickerController()
@@ -30,14 +37,23 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
             addAccountView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ]
         NSLayoutConstraint.activate(constraints)
-    }
-
-    override convenience init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
-        self.init()
+        self.navigationController?.navigationBar.backgroundColor = .white
+        self.navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add, target: self, action: #selector(self.addEntry))
+        self.hideKeyboardWhenTapped()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func didChangeAccountTitle(_ accountName: String) {
+        self.accountName = accountName
+    }
+    
+    @objc func addEntry() {
+        let entry = EntryXML(keyVals: self.fields, name: self.accountName)
+        self.delegate?.didCreateEntry(entry)
+        self.navigationController?.popViewController(animated: true)
     }
 }
 
@@ -56,13 +72,17 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         switch indexPath.section {
         case 0:
-            return AccountTitleCell(style: .default, reuseIdentifier: "AccountTitleCell")
+            let titleCell = AccountTitleCell(style: .default, reuseIdentifier: "AccountTitleCell")
+            titleCell.delegate = self
+            return titleCell
         case 1:
             let cell = AccountImageSelectorCell(style: .default, reuseIdentifier: "AccountImageSelectorCell")
             cell.delegate = self
             return cell
         case 2:
-            return EditableNewFieldCell(style: .default, reuseIdentifier: "EditableNewFieldCell")
+            let cell = tableView.dequeueReusableCell(withIdentifier: "EditableNewFieldCell", for: indexPath) as? EditableNewFieldCell ?? EditableNewFieldCell(style: .default, reuseIdentifier: "EditableNewFieldCell")
+            cell.setKeyVal(self.fields[indexPath.row])
+            return cell
         default:
             let cell: UITableViewCell = UITableViewCell()
             let button: UIButton = UIButton()
@@ -70,7 +90,7 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
             let config = UIImage.SymbolConfiguration(pointSize: 60)
             let plusImageDefault = UIImage(systemName: "plus", withConfiguration: config)
             button.setImage(plusImageDefault, for: .normal)
-            button.tintColor = .systemGreen
+            button.tintColor = ColorConstants.ButtonTextColor
             button.translatesAutoresizingMaskIntoConstraints = false
             button.layer.cornerRadius = 10
             cell.contentView.addSubview(button)
@@ -103,9 +123,8 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func didTapAddField() {
-        self.fields.append(Field())
+        self.fields.append(KeyValXML(key: "Username", value: ""))
         self.addAccountView.insertRows(at: [IndexPath(row: fields.count-1, section: 2)], with: .top)
-        //self.addAccountView.reloadData()
     }
     
     @objc func didTapDeleteField(indexPath: IndexPath) {

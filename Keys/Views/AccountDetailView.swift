@@ -7,13 +7,16 @@
 
 import Foundation
 import UIKit
+import XML
 
 class AccountDetailView: UITableView {
     
     var _headerView: AccountTypeView
+    var _viewModel: AccountDetailViewModel
         
     init(viewModel: AccountDetailViewModel) {
-        _headerView = AccountTypeView(image: viewModel.accountImage, text: viewModel.accountTypeName)
+        _headerView = AccountTypeView(image: nil, text: viewModel.entry.name.value)
+        self._viewModel = viewModel
         super.init(frame: CGRect(), style: .plain)
         self.separatorStyle = .none
         self.translatesAutoresizingMaskIntoConstraints = false

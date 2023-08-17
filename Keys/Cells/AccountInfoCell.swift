@@ -10,7 +10,7 @@ import UIKit
 
 class AccountInfoCell: UITableViewCell {
     
-    var _viewModel: AccountCellViewModel?
+    var _viewModel: AccountCellViewModel
     
     private var _detailContainerView: AccountDetailsView
     private var _accountTypeLabel: UILabel

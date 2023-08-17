@@ -10,5 +10,6 @@ import UIKit
 struct ColorConstants {
     static let GrayColor: UIColor = .systemGray5
     static let RedColor: UIColor = .systemRed
-    static let textColor: UIColor = .label
+    static let TextColor: UIColor = .label
+    static let ButtonTextColor: UIColor = .systemBlue
 }

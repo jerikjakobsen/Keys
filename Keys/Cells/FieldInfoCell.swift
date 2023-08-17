@@ -7,6 +7,7 @@
 
 import Foundation
 import UIKit
+import XML
 
 protocol FieldInfoCellDelegate {
     func didCopyField(fieldInfoCell: FieldInfoCell, copiedText: String)
@@ -16,12 +17,11 @@ class FieldInfoCell: UITableViewCell {
     
     var _fieldTextView: UITextView
     var _copyButton: UIButton
-    var _viewModel: FieldInfoCellViewModel
+    var _viewModel: FieldInfoCellViewModel? = nil
     var _passwordShowing: Bool
     var _delegate: FieldInfoCellDelegate?
     
-    init(style: UITableViewCell.CellStyle, reuseIdentifier: String?, viewModel: FieldInfoCellViewModel) {
-        _viewModel = viewModel
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         _fieldTextView = UITextView()
         _fieldTextView.isScrollEnabled = false
         _fieldTextView.isEditable = false
@@ -36,7 +36,7 @@ class FieldInfoCell: UITableViewCell {
         _copyButton.setImage(UIImage(systemName: "doc.on.doc.fill"), for: .selected)
         _copyButton.translatesAutoresizingMaskIntoConstraints = false
         
-        _passwordShowing = !viewModel.isPassword
+        _passwordShowing = true
         
         super.init(style: .default, reuseIdentifier: "FieldInfoCell")
         _copyButton.addTarget(self, action: #selector(copyText), for: .touchUpInside)
@@ -70,23 +70,27 @@ class FieldInfoCell: UITableViewCell {
     
     func setFieldInfoCell(viewModel: FieldInfoCellViewModel) {
         self._viewModel = viewModel
-        viewModel.isPassword ? self._hidePassword() : self._showPassword()
-        _passwordShowing = !viewModel.isPassword
-        self._copyButton.isHidden = !viewModel.isCopyable
+        viewModel.keyVal.key.value == "Password" ? self._hidePassword() : self._showPassword()
+        _passwordShowing = viewModel.keyVal.key.value == "Password"
+        // self._copyButton.isHidden = !viewModel.isCopyable
     }
     
     func didSelectCell() {
-        if (self._viewModel.fieldType == "Password") {
+        if let key = _viewModel?.keyVal.key.value, key == "Password" {
             self._togglePasswordVisibility()
         }
     }
     
     private func _hidePassword() {
-        self._fieldTextView.attributedText = makeFieldString(fieldName: _viewModel.fieldType, fieldContent: String(repeating: "\u{2022}", count: _viewModel.fieldContent.count))
+        if let vm  = _viewModel {
+            self._fieldTextView.attributedText = makeFieldString(fieldName: vm.keyVal.key.value, fieldContent: String(repeating: "\u{2022}", count: vm.keyVal.value.value.count))
+        }
     }
     
     private func _showPassword() {
-        self._fieldTextView.attributedText = makeFieldString(fieldName: _viewModel.fieldType, fieldContent: _viewModel.fieldContent)
+        if let vm = _viewModel {
+            self._fieldTextView.attributedText = makeFieldString(fieldName: vm.keyVal.key.value, fieldContent: vm.keyVal.value.value)
+        }
     }
     
     private func _togglePasswordVisibility() {
@@ -95,10 +99,11 @@ class FieldInfoCell: UITableViewCell {
     }
     
     @objc func copyText() {
-        UIPasteboard.general.string = _viewModel.fieldContent
-        if _delegate != nil{
-            _delegate!.didCopyField(fieldInfoCell: self, copiedText: _viewModel.fieldContent)
+        if let vm = _viewModel {
+            UIPasteboard.general.string = vm.keyVal.value.value
+            if _delegate != nil{
+                _delegate!.didCopyField(fieldInfoCell: self, copiedText: vm.keyVal.value.value)
+            }
         }
-        
     }
 }

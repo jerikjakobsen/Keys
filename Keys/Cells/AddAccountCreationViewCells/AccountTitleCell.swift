@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
-class AccountTitleCell: UITableViewCell, FieldValueProtocol {
+protocol AccountTitleCellDelegate {
+    func didChangeAccountTitle(_ accountTitle: String)
+}
+
+class AccountTitleCell: UITableViewCell, FieldValueProtocol, UITextFieldDelegate {
     
     let accountField: UITextField
+    var delegate: AccountTitleCellDelegate? = nil
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         accountField = UITextField()
         accountField.placeholder = "Account"
@@ -25,6 +30,8 @@ class AccountTitleCell: UITableViewCell, FieldValueProtocol {
             accountField.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -20)
         ]
         NSLayoutConstraint.activate(constraints)
+        
+        accountField.addTarget(self, action: #selector(self.textFieldDidChange), for: .allEditingEvents)
     }
     
     required init?(coder: NSCoder) {
@@ -33,6 +40,13 @@ class AccountTitleCell: UITableViewCell, FieldValueProtocol {
     
     func FieldValue() -> Field {
         return Field(fieldType: "Account", fieldValue: accountField.text ?? "")
+    }
+    
+    @objc func textFieldDidChange() {
+        guard let accountTitleText = self.accountField.text else {
+            return
+        }
+        delegate?.didChangeAccountTitle(accountTitleText)
     }
     
 }
