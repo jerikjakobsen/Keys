@@ -39,19 +39,22 @@ class AccountTypeView: UIStackView {
     var _textLabel: UILabel
     
     init(image: UIImage?, text: String) {
-        _imageView = image != nil ? UIImageView(image: image!) : UIImageView()
-        _imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        _imageView.widthAnchor.constraint(equalTo: _imageView.heightAnchor).isActive = true
+        _imageView = image != nil ? UIImageView(image: image!) :  UIImageView(image: UIImage(named: "lock.doc.fill")?.withTintColor(.lightGray))
+        _imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        _imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         _textLabel = UILabel()
         _textLabel.text = text
         _textLabel.font = FontConstants.LabelTitle1
         
         super.init(frame: CGRect())
+        self.spacing = 10
         self.axis = .horizontal
         self.alignment = .center
         self.translatesAutoresizingMaskIntoConstraints = false
         self.addArrangedSubview(_imageView)
         self.addArrangedSubview(_textLabel)
+        self.isLayoutMarginsRelativeArrangement = true
+        self.directionalLayoutMargins = .init(top: 0, leading: 10, bottom: 0, trailing: 10)
     }
     
     required init(coder: NSCoder) {

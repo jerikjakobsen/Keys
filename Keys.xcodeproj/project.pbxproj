@@ -20,7 +20,6 @@
 		528B88892A7D3BCB0005E91E /* NetworkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528B88882A7D3BCB0005E91E /* NetworkManager.swift */; };
 		528B888B2A7D3D6A0005E91E /* .env in Resources */ = {isa = PBXBuildFile; fileRef = 528B888A2A7D3D6A0005E91E /* .env */; };
 		529E24022A784FEA00950FCE /* UIViewControllerExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E24012A784FEA00950FCE /* UIViewControllerExtensions.swift */; };
-		529E24052A78A66F00950FCE /* KDBXManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529E24042A78A66E00950FCE /* KDBXManager.swift */; };
 		52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F60288A539E00613D33 /* AppDelegate.swift */; };
 		52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52B63F62288A539E00613D33 /* SceneDelegate.swift */; };
 		52B63F6A288A53A400613D33 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 52B63F69288A53A400613D33 /* Assets.xcassets */; };
@@ -74,7 +73,6 @@
 		528B88882A7D3BCB0005E91E /* NetworkManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkManager.swift; sourceTree = "<group>"; };
 		528B888A2A7D3D6A0005E91E /* .env */ = {isa = PBXFileReference; lastKnownFileType = text; path = .env; sourceTree = "<group>"; };
 		529E24012A784FEA00950FCE /* UIViewControllerExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIViewControllerExtensions.swift; sourceTree = "<group>"; };
-		529E24042A78A66E00950FCE /* KDBXManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KDBXManager.swift; sourceTree = "<group>"; };
 		52B63F5D288A539E00613D33 /* Keys.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Keys.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		52B63F60288A539E00613D33 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		52B63F62288A539E00613D33 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -154,14 +152,6 @@
 			path = Network;
 			sourceTree = "<group>";
 		};
-		529E24032A78A65600950FCE /* KDBX */ = {
-			isa = PBXGroup;
-			children = (
-				529E24042A78A66E00950FCE /* KDBXManager.swift */,
-			);
-			path = KDBX;
-			sourceTree = "<group>";
-		};
 		52B63F54288A539D00613D33 = {
 			isa = PBXGroup;
 			children = (
@@ -184,7 +174,6 @@
 			children = (
 				52D96EA32A80678F00D344BE /* Helpers */,
 				528B88872A7D3B9C0005E91E /* Network */,
-				529E24032A78A65600950FCE /* KDBX */,
 				5220FC632A76BCF600F910C3 /* Animations */,
 				52677B752A7463A200C55D1A /* CustomUI */,
 				52B63F93288F72A800613D33 /* Extensions */,
@@ -438,7 +427,6 @@
 				52677B742A745D1100C55D1A /* SignInViewController.swift in Sources */,
 				52B63F8B288E3C5D00613D33 /* FontConstants.swift in Sources */,
 				52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */,
-				529E24052A78A66F00950FCE /* KDBXManager.swift in Sources */,
 				52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */,
 				52207ABF2A8DC9C30026B0BA /* PasswordTextField.swift in Sources */,
 				52B63F88288E3BE400613D33 /* ColorConstants.swift in Sources */,
