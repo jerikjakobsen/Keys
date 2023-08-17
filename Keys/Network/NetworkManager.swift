@@ -234,8 +234,9 @@ class NetworkManager {
             }
         } catch {
             let errMessage = error.isConnectionError ? "Could not connect to the Internet" : "Something went wrong"
-
+            try self.setCredentials(email: email, password: password)
             if (try !self.userKDBXFIleExists()) {
+                try self.removeCredentials()
                 return ("\(errMessage)\nNo local database with those credentials", nil)
             }
             let fileHandle = try FileHandle(forReadingFrom: self.usersKDBXFileURL())

@@ -30,7 +30,7 @@ class SignInView: UIView {
         titleLabel.text = "Keys"
         titleLabel.font = FontConstants.LabelTitle1
         
-        self.emailTextField = UnderlinedTextField(placeholder: "Username")
+        self.emailTextField = UnderlinedTextField(placeholder: "Email")
         self.passwordTextField = .init()
         
         self.signInButton = UIButton()
