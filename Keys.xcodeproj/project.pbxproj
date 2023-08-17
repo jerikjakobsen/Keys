@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		52207ABF2A8DC9C30026B0BA /* PasswordTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52207ABE2A8DC9C30026B0BA /* PasswordTextField.swift */; };
 		5220FC602A76BCD500F910C3 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 5220FC5F2A76BCD500F910C3 /* Lottie */; };
 		5220FC622A76BCEF00F910C3 /* Unlocking_Animation.json in Resources */ = {isa = PBXBuildFile; fileRef = 5220FC612A76BCEF00F910C3 /* Unlocking_Animation.json */; };
 		5220FC652A76C09100F910C3 /* LoadingAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5220FC642A76C09100F910C3 /* LoadingAnimation.swift */; };
@@ -61,6 +62,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		52207ABE2A8DC9C30026B0BA /* PasswordTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasswordTextField.swift; sourceTree = "<group>"; };
 		5220FC612A76BCEF00F910C3 /* Unlocking_Animation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = Unlocking_Animation.json; sourceTree = "<group>"; };
 		5220FC642A76C09100F910C3 /* LoadingAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingAnimation.swift; sourceTree = "<group>"; };
 		5228D8982A7D931C006914C9 /* KeysTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = KeysTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -138,6 +140,7 @@
 			children = (
 				52677B762A7463BF00C55D1A /* UnderlinedTextField.swift */,
 				5220FC642A76C09100F910C3 /* LoadingAnimation.swift */,
+				52207ABE2A8DC9C30026B0BA /* PasswordTextField.swift */,
 			);
 			path = CustomUI;
 			sourceTree = "<group>";
@@ -437,6 +440,7 @@
 				52B63F61288A539E00613D33 /* AppDelegate.swift in Sources */,
 				529E24052A78A66F00950FCE /* KDBXManager.swift in Sources */,
 				52B63F63288A539E00613D33 /* SceneDelegate.swift in Sources */,
+				52207ABF2A8DC9C30026B0BA /* PasswordTextField.swift in Sources */,
 				52B63F88288E3BE400613D33 /* ColorConstants.swift in Sources */,
 				52D78E4B289DDF3F005AE462 /* AddAccountView.swift in Sources */,
 				52B63F75288A540500613D33 /* PasswordFeedViewController.swift in Sources */,

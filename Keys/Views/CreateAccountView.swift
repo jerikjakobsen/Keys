@@ -17,8 +17,8 @@ class CreateAccountView: UIView {
     let titleLabel: UILabel
     let createAccountLabel: UILabel
     let emailTextField: UnderlinedTextField
-    let passwordTextField: UnderlinedTextField
-    let confirmPasswordTextField: UnderlinedTextField
+    let passwordTextField: PasswordTextField
+    let confirmPasswordTextField: PasswordTextField
     let createAccountButton: UIButton
     var delegate: CreateAccountViewDelegate? = nil
     var animationView: LoadingAnimation
@@ -38,8 +38,8 @@ class CreateAccountView: UIView {
         createAccountLabel.textAlignment = .center
         
         self.emailTextField = UnderlinedTextField(placeholder: "Email")
-        self.passwordTextField = UnderlinedTextField(placeholder: "Password")
-        self.confirmPasswordTextField = UnderlinedTextField(placeholder: "Confirm Password")
+        self.passwordTextField = .init()
+        self.confirmPasswordTextField = .init()
         self.createAccountButton = UIButton()
         createAccountButton.setTitle("Create Account", for: .normal)
         createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
@@ -90,20 +90,17 @@ class CreateAccountView: UIView {
         NSLayoutConstraint.activate(emailTextFieldConstraints)
         
         let passwordTextFieldConstraints = [
-            passwordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
-            passwordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
-            passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor)
+            passwordTextField.leftAnchor.constraint(equalTo: self.emailTextField.leftAnchor),
+            passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -20),
+            passwordTextField.passwordTextField.rightAnchor.constraint(equalTo: self.emailTextField.rightAnchor),
         ]
         NSLayoutConstraint.activate(passwordTextFieldConstraints)
         
         let confirmPasswordTextFieldConstraints = [
-            confirmPasswordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             confirmPasswordTextField.topAnchor.constraint(equalTo: passwordTextField.bottomAnchor, constant: 30),
-            confirmPasswordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
-            confirmPasswordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            confirmPasswordTextField.widthAnchor.constraint(equalTo: passwordTextField.widthAnchor)
+            confirmPasswordTextField.leftAnchor.constraint(equalTo: self.passwordTextField.leftAnchor),
+            confirmPasswordTextField.rightAnchor.constraint(equalTo: self.passwordTextField.rightAnchor)
         ]
         NSLayoutConstraint.activate(confirmPasswordTextFieldConstraints)
         

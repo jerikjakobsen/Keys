@@ -17,7 +17,7 @@ class SignInView: UIView {
     
     let titleLabel: UILabel
     let emailTextField: UnderlinedTextField
-    let passwordTextField: UnderlinedTextField
+    let passwordTextField: PasswordTextField
     let signInButton: UIButton
     let createAccountButton: UIButton
     var delegate: SignInViewDelegate?
@@ -31,7 +31,7 @@ class SignInView: UIView {
         titleLabel.font = FontConstants.LabelTitle1
         
         self.emailTextField = UnderlinedTextField(placeholder: "Username")
-        self.passwordTextField = UnderlinedTextField(placeholder: "Password")
+        self.passwordTextField = .init()
         
         self.signInButton = UIButton()
         signInButton.translatesAutoresizingMaskIntoConstraints = false
@@ -79,11 +79,11 @@ class SignInView: UIView {
         NSLayoutConstraint.activate(emailConstraints)
         
         let passwordConstraints = [
-            passwordTextField.centerXAnchor.constraint(equalTo: self.centerXAnchor),
             passwordTextField.topAnchor.constraint(equalTo: emailTextField.bottomAnchor, constant: 30),
-            passwordTextField.leftAnchor.constraint(greaterThanOrEqualTo: self.leftAnchor, constant: 40),
-            passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -40),
-            passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor)
+            passwordTextField.leftAnchor.constraint(equalTo: self.emailTextField.leftAnchor),
+            passwordTextField.rightAnchor.constraint(lessThanOrEqualTo: self.rightAnchor, constant: -20),
+            passwordTextField.passwordTextField.rightAnchor.constraint(equalTo: self.emailTextField.rightAnchor),
+            //passwordTextField.widthAnchor.constraint(equalTo: emailTextField.widthAnchor)
         ]
         NSLayoutConstraint.activate(passwordConstraints)
         
