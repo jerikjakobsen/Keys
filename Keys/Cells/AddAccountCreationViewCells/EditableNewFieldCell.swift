@@ -143,7 +143,7 @@ extension EditableNewFieldCell {
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
         if (typePickerOptions[row] == "Other") {
-            self.fieldTextField.placeholder = "Value"
+            self.fieldTextField.placeholder = "Text"
             self.KeyVal?.key.value = self.otherFieldTitleTextField.text ?? ""
             self.contentView.layoutIfNeeded()
             UIView.animate(withDuration: 0.5) {

@@ -16,6 +16,7 @@ class AlertView: UIView {
         self.init(frame: CGRect())
         _title.text = title
         _title.translatesAutoresizingMaskIntoConstraints = false
+        _title.font = FontConstants.LabelTitle2
         _copyImageView.translatesAutoresizingMaskIntoConstraints = false
         _copyImageView.tintColor = .white
         self.addSubview(_title)

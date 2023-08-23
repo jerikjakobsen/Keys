@@ -44,7 +44,7 @@ class CreateAccountView: UIView {
         createAccountButton.setTitle("Create Account", for: .normal)
         createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
-        
+        createAccountButton.titleLabel?.font = FontConstants.LabelMedium
         self.animationView = LoadingAnimation()
         
         super.init(frame: frame)

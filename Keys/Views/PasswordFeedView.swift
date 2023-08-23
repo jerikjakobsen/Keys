@@ -16,7 +16,8 @@ class PasswordFeedView: UITableView {
         _searchBar = UISearchBar()
         _searchBar.backgroundImage = _searchBar.backgroundImage?.blurredImage(with: .init(), radius: 30, atRect:_searchBar.frame)
         _searchBar.isTranslucent = true
-
+        _searchBar.placeholder = "Search . . ."
+        _searchBar.searchTextField.font = FontConstants.LabelMedium
         
         super.init(frame: CGRect(), style: .plain)
         

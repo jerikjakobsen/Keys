@@ -37,12 +37,13 @@ class SignInView: UIView {
         signInButton.translatesAutoresizingMaskIntoConstraints = false
         signInButton.setTitle("Sign In", for: .normal)
         signInButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
+        signInButton.titleLabel?.font = FontConstants.LabelMedium
         
         self.createAccountButton = UIButton()
         createAccountButton.translatesAutoresizingMaskIntoConstraints = false
         createAccountButton.setTitle("Create Account", for: .normal)
         createAccountButton.setTitleColor(ColorConstants.ButtonTextColor, for: .normal)
-        
+        createAccountButton.titleLabel?.font = FontConstants.LabelMedium
         self.animationView = .init()
         
         super.init(frame: frame)

@@ -21,6 +21,7 @@ class AccountTitleCell: UITableViewCell, FieldValueProtocol, UITextFieldDelegate
         accountField.placeholder = "Account"
         accountField.textAlignment = .center
         accountField.translatesAutoresizingMaskIntoConstraints = false
+        accountField.font = FontConstants.LabelTitle2
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.selectionStyle = .none
         contentView.addSubview(accountField)

@@ -25,6 +25,7 @@ class AccountImageSelectorCell: UITableViewCell {
         AccountImageLabel = UILabel()
         AccountImageLabel.text = "Account Image"
         AccountImageLabel.translatesAutoresizingMaskIntoConstraints = false
+        AccountImageLabel.font = FontConstants.LabelMedium
         
         let config = UIImage.SymbolConfiguration(pointSize: 20)
 
