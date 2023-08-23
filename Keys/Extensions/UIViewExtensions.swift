@@ -18,6 +18,13 @@ extension UIView {
         blurView.translatesAutoresizingMaskIntoConstraints = false
         return blurView
     }
+    
+    func removeAllSubviews() {
+        for view in self.subviews {
+            NSLayoutConstraint.deactivate(view.constraints)
+            view.removeFromSuperview()
+        }
+    }
 }
 
 extension UIImage {

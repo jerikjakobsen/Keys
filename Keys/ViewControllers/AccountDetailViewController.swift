@@ -49,11 +49,6 @@ extension AccountDetailViewController {
         cell._delegate = self
         return cell
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell: FieldInfoCell = tableView.cellForRow(at: indexPath) as! FieldInfoCell
-        cell.didSelectCell()
-    }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         return _accountDetailView._headerView

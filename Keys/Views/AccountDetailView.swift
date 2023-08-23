@@ -18,7 +18,7 @@ class AccountDetailView: UITableView {
         _headerView = AccountTypeView(image: nil, text: viewModel.entry.name.value)
         self._viewModel = viewModel
         super.init(frame: CGRect(), style: .plain)
-        self.separatorStyle = .none
+        self.separatorStyle = .singleLine
         self.translatesAutoresizingMaskIntoConstraints = false
         self.rowHeight = UITableView.automaticDimension
         self.estimatedRowHeight = 200
