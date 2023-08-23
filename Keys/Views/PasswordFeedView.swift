@@ -8,9 +8,14 @@
 import Foundation
 import UIKit
 
-class PasswordFeedView: UITableView {
+protocol PasswordFeedViewDelegate: UITableViewDelegate {
+    func didChangeSearch(_ searchBar: UISearchBar, text: String)
+}
+
+class PasswordFeedView: UITableView, UISearchBarDelegate {
         
     var _searchBar: UISearchBar
+    var searchDelegate: PasswordFeedViewDelegate? = nil
     
     init() {
         _searchBar = UISearchBar()
@@ -20,6 +25,7 @@ class PasswordFeedView: UITableView {
         _searchBar.searchTextField.font = FontConstants.LabelMedium
         
         super.init(frame: CGRect(), style: .plain)
+        _searchBar.delegate = self
         
         self.register(AccountInfoCell.self, forCellReuseIdentifier: "AccountInfoCell")
         self.separatorStyle = .none
@@ -28,6 +34,11 @@ class PasswordFeedView: UITableView {
         self.estimatedRowHeight = 200
         self.sectionHeaderTopPadding = 0
     }
+    
+    func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
+        self.searchDelegate?.didChangeSearch(searchBar, text: searchText)
+    }
+    
     required init?(coder: NSCoder) {
         _searchBar = UISearchBar()
         super.init(coder: coder)

@@ -10,15 +10,17 @@ import UIKit
 import KDBX
 import XML
 
-class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, AddAcountViewControllerDelegate  {
+class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UIScrollViewDelegate, AddAcountViewControllerDelegate, PasswordFeedViewDelegate  {
     
     var _passwordFeedView: PasswordFeedView
     private var _kdbxDatabase: KDBX
+    private var searchResults: [EntryXML] = []
     
     init(kdbx: KDBX) {
         _passwordFeedView = PasswordFeedView()
         _kdbxDatabase = kdbx
-
+        searchResults = kdbx.group.entries
+        
         super.init(nibName: nil, bundle: nil)
         self.view.addSubview(_passwordFeedView)
         
@@ -31,7 +33,7 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
         NSLayoutConstraint.activate(passwordFeedViewLayout)
         _passwordFeedView.delegate = self
         _passwordFeedView.dataSource = self
-        _passwordFeedView._searchBar.delegate = self
+        _passwordFeedView.searchDelegate = self
         self.title = "Accounts"
     }
     
@@ -82,17 +84,29 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
+    func didChangeSearch(_ searchBar: UISearchBar, text: String) {
+        let searchText = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
+        if (searchText.count == 0) {
+            self.searchResults = self._kdbxDatabase.group.entries
+        } else {
+            self.searchResults = self._kdbxDatabase.group.entries.filter { entry in
+                return entry.name.value.lowercased().contains(searchText)
+            }
+        }
+        self._passwordFeedView.reloadData()
+    }
+    
 }
 
 // Table View Delegate
 extension PasswordFeedViewController {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return _kdbxDatabase.group.entries.count
+        return self.searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        let entry: EntryXML = _kdbxDatabase.group.entries[indexPath.row]
+        let entry: EntryXML = self.searchResults[indexPath.row]
         
         let cellViewModel: AccountCellViewModel = AccountCellViewModel(entry: entry)
         let cell: AccountInfoCell = AccountInfoCell(style: .default, reuseIdentifier: "AccountInfoCell", viewModel: cellViewModel)
