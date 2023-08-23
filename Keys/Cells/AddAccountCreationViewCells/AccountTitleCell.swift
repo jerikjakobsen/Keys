@@ -22,6 +22,7 @@ class AccountTitleCell: UITableViewCell, FieldValueProtocol, UITextFieldDelegate
         accountField.textAlignment = .center
         accountField.translatesAutoresizingMaskIntoConstraints = false
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         contentView.addSubview(accountField)
         let constraints = [
             accountField.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),

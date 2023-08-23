@@ -40,6 +40,7 @@ class AccountImageSelectorCell: UITableViewCell {
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        self.selectionStyle = .none
         self.contentView.addSubview(AccountImageLabel)
         self.contentView.addSubview(SearchButton)
         self.contentView.addSubview(UploadButton)

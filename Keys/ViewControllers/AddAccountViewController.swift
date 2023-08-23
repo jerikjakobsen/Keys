@@ -39,7 +39,7 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
         NSLayoutConstraint.activate(constraints)
         self.view.backgroundColor = .systemBackground
         self.navigationController?.navigationBar.backgroundColor = .systemBackground
-        self.navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add, target: self, action: #selector(self.addEntry))
+        self.navigationItem.rightBarButtonItem = .init(title: "Save", style: .done, target: self, action: #selector(self.addEntry))
         self.hideKeyboardWhenTapped()
     }
     
@@ -94,6 +94,7 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
             button.tintColor = ColorConstants.ButtonTextColor
             button.translatesAutoresizingMaskIntoConstraints = false
             button.layer.cornerRadius = 10
+            cell.selectionStyle = .none
             cell.contentView.addSubview(button)
             let constraints = [
                 button.leftAnchor.constraint(greaterThanOrEqualTo: cell.contentView.leftAnchor, constant: 20),

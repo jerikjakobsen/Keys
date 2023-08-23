@@ -29,6 +29,7 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
         otherFieldTitleTextField.isHidden = true
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.selectionStyle = .none
         self.contentView.addSubview(otherFieldTitleTextField)
         self.contentView.addSubview(fieldTypePickerView)
         self.contentView.addSubview(fieldTextField)
