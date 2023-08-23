@@ -62,7 +62,7 @@ class FieldInfoCell: UITableViewCell {
         _showValueButton.translatesAutoresizingMaskIntoConstraints = false
         
         _urlLinkButton = UIButton()
-        _urlLinkButton.setImage(UIImage(named: "link"), for: .normal)
+        _urlLinkButton.setImage(UIImage(systemName: "link"), for: .normal)
         _urlLinkButton.translatesAutoresizingMaskIntoConstraints = false
 
         _valueShowing = true
