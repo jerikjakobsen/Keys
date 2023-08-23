@@ -37,7 +37,8 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
             addAccountView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ]
         NSLayoutConstraint.activate(constraints)
-        self.navigationController?.navigationBar.backgroundColor = .white
+        self.view.backgroundColor = .systemBackground
+        self.navigationController?.navigationBar.backgroundColor = .systemBackground
         self.navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .add, target: self, action: #selector(self.addEntry))
         self.hideKeyboardWhenTapped()
     }
@@ -173,11 +174,11 @@ extension AddAccountViewController: UIImagePickerControllerDelegate, AccountImag
 func resizeImage(image: UIImage, newWidth: CGFloat, newHeight: CGFloat) -> UIImage? {
     let size = image.size
         
-    let widthRatio = newWidth / size.width
-    let heightRatio = newHeight / size.height
+//    let widthRatio = newWidth / size.width
+//    let heightRatio = newHeight / size.height
     
     // Figure out what our orientation is, and use that to form the rectangle
-    var newSize: CGSize = CGSize(width: newWidth, height: newHeight)
+    let newSize: CGSize = CGSize(width: newWidth, height: newHeight)
 //    if(widthRatio > heightRatio) {
 //        newSize = CGSize(width: size.width * heightRatio, height: size.height * heightRatio)
 //    } else {
