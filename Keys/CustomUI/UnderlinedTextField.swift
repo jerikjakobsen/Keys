@@ -19,6 +19,7 @@ class UnderlinedTextField: UITextField, UITextFieldDelegate {
     
     convenience init(placeholder: String = "") {
         self.init(frame: CGRect())
+        self.font = FontConstants.LabelRegular
         self.translatesAutoresizingMaskIntoConstraints = false
         self.placeholder = placeholder
         self.backgroundColor = .clear
