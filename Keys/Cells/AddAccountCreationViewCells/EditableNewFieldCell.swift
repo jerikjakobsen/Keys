@@ -13,31 +13,26 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
     
     var KeyVal: KeyValXML? = nil
     
-    let typePickerOptions: [String] = ["Username", "Email", "Name","Description" , "Password", "Pin", "Recovery Email", "Phone Number", "Website"]
+    let typePickerOptions: [String] = ["Username", "Email", "Password", "Description", "Pin", "Recovery Email", "Phone Number", "URL", "Other"]
     let fieldTypePickerView: UIPickerView
-    let fieldTextField: UITextField
-    let fieldTextFieldUnderlineLayer: CALayer
+    let fieldTextField: UnderlinedTextField
+    let otherFieldTitleTextField: UnderlinedTextField
+    var nonOtherConstraints: [NSLayoutConstraint] = []
+    var otherConstraints: [NSLayoutConstraint] = []
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         fieldTypePickerView = UIPickerView()
         fieldTypePickerView.translatesAutoresizingMaskIntoConstraints = false
         
-        fieldTextField = UITextField()
-        fieldTextField.translatesAutoresizingMaskIntoConstraints = false
-        
-        fieldTextField.placeholder = typePickerOptions[0]
-        fieldTextField.backgroundColor = .clear
-        fieldTextFieldUnderlineLayer = CALayer()
-        fieldTextFieldUnderlineLayer.masksToBounds = true
-        fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.GrayColor.cgColor
-        fieldTextFieldUnderlineLayer.borderWidth = 0.0
-        fieldTextField.borderStyle = .none
-        fieldTextField.layer.addSublayer(fieldTextFieldUnderlineLayer)
+        fieldTextField = UnderlinedTextField(placeholder: "Username")
+        otherFieldTitleTextField = UnderlinedTextField(placeholder: "Name")
+        otherFieldTitleTextField.isHidden = true
         
         super.init(style: style, reuseIdentifier: reuseIdentifier)
+        self.contentView.addSubview(otherFieldTitleTextField)
         self.contentView.addSubview(fieldTypePickerView)
         self.contentView.addSubview(fieldTextField)
-        let constraints = [
+        nonOtherConstraints = [
             fieldTypePickerView.heightAnchor.constraint(equalToConstant: 80),
             fieldTypePickerView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.45),
             
@@ -49,22 +44,52 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
             fieldTextField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -10),
             fieldTextField.centerYAnchor.constraint(equalTo: fieldTypePickerView.centerYAnchor),
             fieldTextField.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant:  10),
+            fieldTextField.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -10),
+            
+            otherFieldTitleTextField.leftAnchor.constraint(equalTo: fieldTextField.leftAnchor),
+            otherFieldTitleTextField.rightAnchor.constraint(equalTo: fieldTextField.rightAnchor),
+            otherFieldTitleTextField.topAnchor.constraint(equalTo: fieldTextField.topAnchor),
+            otherFieldTitleTextField.bottomAnchor.constraint(equalTo: fieldTextField.bottomAnchor)
+        ]
+        NSLayoutConstraint.activate(nonOtherConstraints)
+        
+        otherConstraints = [
+            fieldTypePickerView.heightAnchor.constraint(equalToConstant: 80),
+            fieldTypePickerView.widthAnchor.constraint(equalTo: self.contentView.widthAnchor, multiplier: 0.45),
+            
+            fieldTypePickerView.leftAnchor.constraint(equalTo: self.contentView.leftAnchor, constant: 20),
+            fieldTypePickerView.topAnchor.constraint(equalTo: self.contentView.topAnchor, constant: 10),
+            fieldTypePickerView.bottomAnchor.constraint(equalTo: self.contentView.bottomAnchor, constant: -10),
+            fieldTypePickerView.rightAnchor.constraint(equalTo: fieldTextField.leftAnchor, constant: -10),
+            
+            otherFieldTitleTextField.rightAnchor.constraint(equalTo: self.contentView.rightAnchor, constant: -10),
+            otherFieldTitleTextField.bottomAnchor.constraint(equalTo: fieldTypePickerView.centerYAnchor, constant: -10),
+            otherFieldTitleTextField.topAnchor.constraint(greaterThanOrEqualTo: self.contentView.topAnchor, constant:  10),
+            
+            fieldTextField.leftAnchor.constraint(equalTo: otherFieldTitleTextField.leftAnchor),
+            fieldTextField.rightAnchor.constraint(equalTo: otherFieldTitleTextField.rightAnchor),
+            fieldTextField.topAnchor.constraint(equalTo: otherFieldTitleTextField.bottomAnchor, constant: 20),
             fieldTextField.bottomAnchor.constraint(lessThanOrEqualTo: self.contentView.bottomAnchor, constant: -10)
         ]
-        NSLayoutConstraint.activate(constraints)
         self.fieldTypePickerView.delegate = self
         self.fieldTypePickerView.dataSource = self
         self.fieldTextField.delegate = self
         self.fieldTextField.addTarget(self, action: #selector(self.textFieldTextChanged), for: .allEditingEvents)
+        self.otherFieldTitleTextField.addTarget(self, action: #selector(self.otherTextFieldTextChanged), for: .allEditingEvents)
     }
     
     func setKeyVal(_ kv: KeyValXML) {
-        guard let row = getMatchingFieldValueRow(kv.key.value) else {
-            return
-        }
-        self.fieldTypePickerView.selectRow(row, inComponent: 0, animated: false)
-        self.fieldTextField.text = kv.value.value
         self.KeyVal = kv
+        if let row = getMatchingFieldValueRow(kv.key.value) {
+            self.fieldTypePickerView.selectRow(row, inComponent: 0, animated: false)
+        } else {
+            NSLayoutConstraint.deactivate(self.otherConstraints)
+            NSLayoutConstraint.activate(self.nonOtherConstraints)
+            self.contentView.layoutIfNeeded()
+            self.fieldTypePickerView.selectRow(self.typePickerOptions.count-1, inComponent: 0, animated: false)
+            self.otherFieldTitleTextField.text = kv.key.value
+        }
+        self.fieldTextField.text = kv.value.value
     }
     
     func getMatchingFieldValueRow(_ val: String) -> Int? {
@@ -80,18 +105,17 @@ class EditableNewFieldCell: UITableViewCell, UIPickerViewDataSource, UIPickerVie
         fatalError("init(coder:) has not been implemented")
     }
     
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        fieldTextFieldUnderlineLayer.frame = CGRect(x: 0.0, y: fieldTextField.bounds.maxY, width: fieldTextField.bounds.width, height: 1.0)
-    }
-    
     func FieldValue() -> Field {
         return Field(fieldType: typePickerOptions[self.fieldTypePickerView.selectedRow(inComponent: 0)], fieldValue: self.fieldTextField.text ?? "")
     }
     @objc func textFieldTextChanged() {
         if let text = self.fieldTextField.text {
             self.KeyVal?.value.value = text
+        }
+    }
+    @objc func otherTextFieldTextChanged() {
+        if let text = self.otherFieldTitleTextField.text {
+            self.KeyVal?.key.value = text
         }
     }
 }
@@ -117,17 +141,29 @@ extension EditableNewFieldCell {
         return label
     }
     func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
-        self.fieldTextField.placeholder = typePickerOptions[row]
-        self.KeyVal?.key.value = typePickerOptions[row]
-    }
-}
-
-extension EditableNewFieldCell {
-    func textFieldDidBeginEditing(_ textField: UITextField) {
-        self.fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.TextColor.cgColor
-    }
-    func textFieldDidEndEditing(_ textField: UITextField) {
-        self.fieldTextFieldUnderlineLayer.backgroundColor = ColorConstants.GrayColor.cgColor
+        if (typePickerOptions[row] == "Other") {
+            self.fieldTextField.placeholder = "Value"
+            self.KeyVal?.key.value = self.otherFieldTitleTextField.text ?? ""
+            self.contentView.layoutIfNeeded()
+            UIView.animate(withDuration: 0.5) {
+                self.otherFieldTitleTextField.isHidden = false
+                NSLayoutConstraint.deactivate(self.nonOtherConstraints)
+                NSLayoutConstraint.activate(self.otherConstraints)
+                self.contentView.layoutIfNeeded()
+            }
+        } else {
+            if (!self.otherFieldTitleTextField.isHidden) {
+                self.contentView.layoutIfNeeded()
+                UIView.animate(withDuration: 0.5) {
+                    self.otherFieldTitleTextField.isHidden = true
+                    NSLayoutConstraint.deactivate(self.otherConstraints)
+                    NSLayoutConstraint.activate(self.nonOtherConstraints)
+                    self.contentView.layoutIfNeeded()
+                }
+            }
+            self.fieldTextField.placeholder = typePickerOptions[row]
+            self.KeyVal?.key.value = typePickerOptions[row]
+        }
     }
 }
 
