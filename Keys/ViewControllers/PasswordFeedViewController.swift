@@ -65,6 +65,7 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
     
     func didCreateEntry(_ entry: EntryXML) {
         self._kdbxDatabase.group.addEntry(entry: entry)
+        self.didChangeSearch(nil, text: self._passwordFeedView._searchBar.text ?? "")
         self._passwordFeedView.reloadData()
         Task.init {
             
@@ -84,7 +85,7 @@ class PasswordFeedViewController: UIViewController, UITableViewDelegate, UITable
         }
     }
     
-    func didChangeSearch(_ searchBar: UISearchBar, text: String) {
+    func didChangeSearch(_ searchBar: UISearchBar?, text: String) {
         let searchText = text.trimmingCharacters(in: .whitespacesAndNewlines).lowercased()
         if (searchText.count == 0) {
             self.searchResults = self._kdbxDatabase.group.entries

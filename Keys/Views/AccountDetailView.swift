@@ -15,7 +15,7 @@ class AccountDetailView: UITableView {
     var _viewModel: AccountDetailViewModel
         
     init(viewModel: AccountDetailViewModel) {
-        _headerView = AccountTypeView(image: nil, text: viewModel.entry.name.value)
+        _headerView = AccountTypeView(image: viewModel.accountImage, text: viewModel.entry.name.value)
         self._viewModel = viewModel
         super.init(frame: CGRect(), style: .plain)
         self.separatorStyle = .singleLine
@@ -39,8 +39,15 @@ class AccountTypeView: UIStackView {
     var _textLabel: UILabel
     
     init(image: UIImage?, text: String) {
-        _imageView = image != nil ? UIImageView(image: image!) :  UIImageView(image: UIImage(named: "lock.doc.fill")?.withTintColor(.lightGray))
-        _imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        if let img = image {
+            _imageView = UIImageView(image: img)
+            _imageView.round()
+        } else {
+            _imageView = UIImageView(image: UIImage(named: "lock"))
+        }
+        _imageView.widthAnchor.constraint(equalToConstant: 50).isActive = true
+        _imageView.contentMode = .scaleAspectFit
+        _imageView.translatesAutoresizingMaskIntoConstraints = false 
         _imageView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         _textLabel = UILabel()
         _textLabel.text = text

@@ -52,8 +52,30 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @objc func addEntry() {
-        let entry = EntryXML(keyVals: self.fields, name: self.accountName)
-        self.delegate?.didCreateEntry(entry)
+        var entry: EntryXML? = nil
+        if let accountImageData = self.selectedAccountImage?.pngData() {
+            let imageUUID = UUID().uuidString
+            do {
+                try NetworkManager.shared?.saveImageLocally(imageData: accountImageData, imageID: imageUUID)
+                entry = EntryXML(iconID: imageUUID, keyVals: self.fields, name: self.accountName)
+            } catch {
+                let alert = UIAlertController(title: "Could not save image", message: "", preferredStyle: .alert)
+                alert.addAction(.init(title: "Create Without Account Image", style: .default, handler: { action in
+                    entry = EntryXML(keyVals: self.fields, name: self.accountName)
+                }))
+                alert.addAction(.init(title: "Cancel", style: .cancel))
+                self.present(alert, animated: true)
+                return
+            }
+        } else {
+            entry = EntryXML(keyVals: self.fields, name: self.accountName)
+        }
+        guard let createdEntry = entry else {
+            let alert = UIAlertController(title: "Could not create entry", message: "", preferredStyle: .alert)
+            alert.addAction(.init(title: "ok", style: .default))
+            return
+        }
+        self.delegate?.didCreateEntry(createdEntry)
         self.navigationController?.popViewController(animated: true)
     }
 }
@@ -165,7 +187,9 @@ extension AddAccountViewController: UIImagePickerControllerDelegate, AccountImag
                 return
             }
             if let image: UIImage = resizeImage(image: selectedAccountImage, newWidth: 50, newHeight: 50) {
-                cell.uploadedImageView.image = image
+                cell.UploadButton.setImage(image, for: .normal)
+                cell.UploadButton.imageView?.round()
+                self.selectedAccountImage = image
             }
         }
     }

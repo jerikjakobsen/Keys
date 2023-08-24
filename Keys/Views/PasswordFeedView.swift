@@ -9,7 +9,7 @@ import Foundation
 import UIKit
 
 protocol PasswordFeedViewDelegate: UITableViewDelegate {
-    func didChangeSearch(_ searchBar: UISearchBar, text: String)
+    func didChangeSearch(_ searchBar: UISearchBar?, text: String)
 }
 
 class PasswordFeedView: UITableView, UISearchBarDelegate {

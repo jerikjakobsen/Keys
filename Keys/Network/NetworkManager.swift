@@ -26,6 +26,7 @@ enum NetworkHandlerError: Error {
     case UnableToSync
     case NoEmailOrPassword
     case NoKDBXAvailable
+    case NoImageAtPath
 }
 
 public var NSURLErrorConnectionFailureCodes: [Int] {
@@ -215,7 +216,7 @@ class NetworkManager {
                 throw NetworkHandlerError.UnableToConvertTimeStringToInt
             }
             
-            let localTimeUpdated = UserDefaults.standard.integer(forKey: "\(emailLowercase)-\(KeysUserDefaults.DBUpdatedAt)")
+            let localTimeUpdated = KeysUserDefaults.getLocalDBUpdatedAt(for: emailLowercase)
             
             if (localTimeUpdated == 0 && serverTimeUpdated == 0) {
                 // Try to pull database from server
@@ -368,7 +369,7 @@ class NetworkManager {
         
         try data.write(to: self.usersKDBXFileURL())
         
-        UserDefaults.standard.setValue(serverTimeUpdated, forKey: "\(email.lowercased())-\(KeysUserDefaults.DBUpdatedAt)")
+        KeysUserDefaults.updateDBUpdatedAt(for: email, at: serverTimeUpdated)
         
         return try await KDBX.fromEncryptedData(data, password: password)
     }
@@ -393,10 +394,7 @@ class NetworkManager {
             request.allHTTPHeaderFields = cookieHeaders
         }
         
-        let timeNow = Int(Date.now.timeIntervalSince1970)
-        let timeNowString = String(timeNow)
-        
-        UserDefaults.standard.setValue(timeNow, forKey: "\(email.lowercased())-\(KeysUserDefaults.DBUpdatedAt)")
+       let timeNowString = KeysUserDefaults.updateDBUpdatedAt(for: email, at: Date.now)
         
         request.setValue("application/octet-stream", forHTTPHeaderField: "Content-Type")
         request.setValue(timeNowString, forHTTPHeaderField: KeysUserDefaults.DBUpdatedAt)
@@ -423,4 +421,35 @@ class NetworkManager {
         try await uploadKDBX(data: encryptedData)
     }
     
+    public func saveImageLocally(imageData: Data, imageID: String) throws {
+        // Image should be in png format
+        guard let email = _email else {
+            throw NetworkHandlerError.NoEmailOrPassword
+        }
+        let imageName = "\(email)-\(imageID).png"
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        if !FileManager.default.fileExists(atPath: documentsDirectory.appendingPathComponent("Images").path) {
+            try FileManager.default.createDirectory(at: documentsDirectory.appendingPathComponent("Images"), withIntermediateDirectories: false)
+        }
+        let imageFileURL = documentsDirectory.appendingPathComponent("Images").appendingPathComponent(imageName)
+        try imageData.write(to: imageFileURL)
+    }
+    
+    public func getImageLocally(imageID: String) throws -> Data {
+        guard let email = _email else {
+            throw NetworkHandlerError.NoEmailOrPassword
+        }
+        let imageName = "\(email)-\(imageID).png"
+        let documentsDirectory = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+        let imageFileURL = documentsDirectory.appendingPathComponent("Images").appendingPathComponent(imageName)
+        guard FileManager.default.fileExists(atPath: imageFileURL.path) else {
+            throw NetworkHandlerError.NoImageAtPath
+        }
+        
+        let fileHandle = try FileHandle(forReadingFrom: imageFileURL)
+        defer { fileHandle.closeFile() }
+
+        let fileData = fileHandle.readDataToEndOfFile()
+        return fileData
+    }
 }

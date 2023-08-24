@@ -32,7 +32,12 @@ class AccountInfoCell: UITableViewCell {
         _accountTypeLabel.translatesAutoresizingMaskIntoConstraints = false
         _accountTypeLabel.font = FontConstants.LabelTitle2
         _accountTypeLabel.text = viewModel.accountTypeName
-        _accountImageView = viewModel.accountImage != nil ? UIImageView(image: viewModel.accountImage!) : UIImageView(image: UIImage(named: "lock.doc.fill")?.withTintColor(.lightGray))
+        if let img = viewModel.accountImage {
+            _accountImageView = UIImageView(image: img)
+            _accountImageView.round()
+        } else {
+            _accountImageView = UIImageView(image: UIImage(named: "lock"))
+        }
         _accountImageView.contentMode = .scaleAspectFit
         _accountImageView.translatesAutoresizingMaskIntoConstraints = false
         

@@ -21,7 +21,13 @@ struct AccountCellViewModel  {
     init(username: String? = nil, email: String? = nil, accountImage: UIImage? = nil, accountTypeName: String, entry: EntryXML) {
         self.username = username
         self.email = email
-        self.accountImage = accountImage
+        if let accountImg = accountImage {
+            self.accountImage = accountImg
+        } else if let imageData = try? NetworkManager.shared?.getImageLocally(imageID: entry.iconID.value) {
+            self.accountImage = UIImage(data: imageData)
+        } else {
+            self.accountImage = nil
+        }
         self.accountTypeName = accountTypeName
         self.hasUsername = username != nil
         self.hasEmail = email != nil
