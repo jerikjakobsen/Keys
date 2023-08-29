@@ -1,0 +1,17 @@
+services:
+  mongo-express:
+    image: mongo-express
+    restart: always
+    ports:
+      - 2000:8081
+    environment:
+      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@keys-db:27017
+    depends_on:
+      - keys-db
+    networks:
+      - mongo-network
+  node-server:
+      volumes:
+        - ./server/src:/app/src
+      environment:
+        - environment=DEV

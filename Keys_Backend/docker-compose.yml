@@ -28,18 +28,6 @@ services:
     networks:
       - mongo-network
 
-  mongo-express:
-    image: mongo-express
-    restart: always
-    ports:
-      - 2000:8081
-    environment:
-      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@keys-db:27017
-    depends_on:
-      - keys-db
-    networks:
-      - mongo-network
-
   keys-redis:
     image: redis:alpine
     restart: always
@@ -62,10 +50,10 @@ services:
       dockerfile: Dockerfile
     env_file:
       - .env
+    environment:
+      - environment=PRODUCTION
     depends_on:
       - keys-db
-    volumes:
-      - ./server/src:/app/src
     ports:
       - ${NODE_SERVER_PORT}:${NODE_SERVER_PORT}
     networks:
