@@ -22,6 +22,10 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
     let imageSelector: UIImagePickerController
     var selectedAccountImage: UIImage?
     var delegate: AddAcountViewControllerDelegate? = nil
+    var editingEntry: EntryXML? = nil
+    var editingFields: [KeyValXML]? = nil
+    var editingAccountName: XMLString? = nil
+    var didChangeAccountImage: Bool = false
     
     init() {
         imageSelector = UIImagePickerController()
@@ -43,6 +47,19 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
         self.hideKeyboardWhenTapped()
     }
     
+    static func Editing(entry: EntryXML, accountImage: UIImage? = nil) -> AddAccountViewController {
+        let addAccountViewController = AddAccountViewController()
+        addAccountViewController.editingEntry = entry
+        addAccountViewController.editingFields = entry.KeyVals.map({ kv in
+            return kv.copy() as! KeyValXML
+        })
+        
+        addAccountViewController.editingAccountName = entry.name.copy() as! XMLString
+        addAccountViewController.selectedAccountImage = accountImage
+        addAccountViewController.addAccountView.reloadData()
+        return addAccountViewController
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -52,6 +69,12 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
     }
     
     @objc func addEntry() {
+        
+        if self.editingEntry != nil {
+            self.addEditedEntry()
+            return
+        }
+        
         var entry: EntryXML? = nil
         if let accountImageData = self.selectedAccountImage?.pngData() {
             let imageUUID = UUID().uuidString
@@ -78,15 +101,56 @@ class AddAccountViewController: UIViewController, UINavigationControllerDelegate
         self.delegate?.didCreateEntry(createdEntry)
         self.navigationController?.popViewController(animated: true)
     }
+    
+    func addEditedEntry() {
+        var imageUUID: String? = nil
+        if didChangeAccountImage {
+            imageUUID = UUID().uuidString
+        }
+        
+        guard let editingEntryNotNil = editingEntry, let editingFieldsNotNil = editingFields, let entryNameNotNil = editingAccountName else {
+            let alert = UIAlertController(title: "Something Went Wrong", message: "Could not save edit", preferredStyle: .alert)
+            alert.addAction(.init(title: "Cancel", style: .cancel))
+            self.present(alert, animated: true)
+            return
+        }
+        
+        if let imageUUIDNotNil = imageUUID, let accountImageData = self.selectedAccountImage?.pngData() {
+            do {
+                try NetworkManager.shared?.saveImageLocally(imageData: accountImageData, imageID: imageUUID!)
+                editingEntryNotNil.iconID.value = imageUUIDNotNil
+            } catch {
+                let alert = UIAlertController(title: "Could not save image", message: "", preferredStyle: .alert)
+                alert.addAction(.init(title: "Create Without Account Image", style: .default, handler: { action in
+                    editingEntryNotNil.KeyVals = editingFieldsNotNil
+                    editingEntryNotNil.name = entryNameNotNil
+                    self.delegate?.didCreateEntry(editingEntryNotNil)
+                    self.navigationController?.popViewController(animated: true)
+                }))
+                alert.addAction(.init(title: "Cancel", style: .cancel))
+                self.present(alert, animated: true)
+                return
+            }
+        }
+        editingEntryNotNil.KeyVals = editingFieldsNotNil
+        editingEntryNotNil.name = entryNameNotNil
+        self.delegate?.didCreateEntry(editingEntryNotNil)
+        self.navigationController?.popViewController(animated: true)
+    }
 }
+
 
 extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if section == 2 {
-            return fields.count
-        } else {
+        
+        if section != 2 {
             return 1
         }
+        
+        if let _ = editingEntry, let editingFieldsNotNil = editingFields {
+            return editingFieldsNotNil.count
+        }
+        return fields.count
     }
     func numberOfSections(in tableView: UITableView) -> Int {
         return 4
@@ -97,14 +161,24 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
         case 0:
             let titleCell = AccountTitleCell(style: .default, reuseIdentifier: "AccountTitleCell")
             titleCell.delegate = self
+            if let _ = editingEntry, let editingAccountNameNotNil = editingAccountName {
+                titleCell.setCell(title: editingAccountNameNotNil.value)
+            }
             return titleCell
         case 1:
             let cell = AccountImageSelectorCell(style: .default, reuseIdentifier: "AccountImageSelectorCell")
             cell.delegate = self
+            if self.selectedAccountImage != nil {
+                cell.UploadButton.setImage(self.selectedAccountImage, for: .normal)
+            }
             return cell
         case 2:
             let cell = tableView.dequeueReusableCell(withIdentifier: "EditableNewFieldCell", for: indexPath) as? EditableNewFieldCell ?? EditableNewFieldCell(style: .default, reuseIdentifier: "EditableNewFieldCell")
-            cell.setKeyVal(self.fields[indexPath.row])
+            if let _ = editingEntry, let editingFieldsNotNil = editingFields {
+                cell.setKeyVal(editingFieldsNotNil[indexPath.row])
+            } else {
+                cell.setKeyVal(self.fields[indexPath.row])
+            }
             return cell
         default:
             let cell: UITableViewCell = UITableViewCell()
@@ -147,15 +221,24 @@ extension AddAccountViewController: UITableViewDelegate, UITableViewDataSource {
     }
     
     @objc func didTapAddField() {
-        self.fields.append(KeyValXML(key: "Username", value: ""))
-        self.addAccountView.insertRows(at: [IndexPath(row: fields.count-1, section: 2)], with: .top)
+        if let _ = editingEntry, var editingFieldsNotNil = editingFields {
+            editingFieldsNotNil.append(KeyValXML(key: "Username", value: ""))
+            self.addAccountView.insertRows(at: [IndexPath(row: editingFieldsNotNil.count-1, section: 2)], with: .top)
+        } else {
+            self.fields.append(KeyValXML(key: "Username", value: ""))
+            self.addAccountView.insertRows(at: [IndexPath(row: fields.count-1, section: 2)], with: .top)
+        }
     }
     
     @objc func didTapDeleteField(indexPath: IndexPath) {
         cellToDelete = addAccountView.cellForRow(at: indexPath) as? EditableNewFieldCell
         addAccountView.performBatchUpdates(nil) { completed in
             if completed {
-                self.fields.remove(at: indexPath.row)
+                if let _ = self.editingEntry, var editingFieldsNotNil = self.editingFields {
+                    editingFieldsNotNil.remove(at: indexPath.row)
+                } else {
+                    self.fields.remove(at: indexPath.row)
+                }
                 self.addAccountView.reloadData()
             }
         }
@@ -190,6 +273,7 @@ extension AddAccountViewController: UIImagePickerControllerDelegate, AccountImag
                 cell.UploadButton.setImage(image, for: .normal)
                 cell.UploadButton.imageView?.round()
                 self.selectedAccountImage = image
+                self.didChangeAccountImage = true
             }
         }
     }

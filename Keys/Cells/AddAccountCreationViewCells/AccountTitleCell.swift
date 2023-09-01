@@ -36,6 +36,10 @@ class AccountTitleCell: UITableViewCell, FieldValueProtocol, UITextFieldDelegate
         accountField.addTarget(self, action: #selector(self.textFieldDidChange), for: .allEditingEvents)
     }
     
+    func setCell(title: String) {
+        self.accountField.text = title
+    }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }

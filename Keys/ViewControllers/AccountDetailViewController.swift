@@ -7,11 +7,14 @@
 
 import Foundation
 import UIKit
+import XML
+import KDBX
 
-class AccountDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FieldInfoCellDelegate {
+class AccountDetailViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, FieldInfoCellDelegate, AddAcountViewControllerDelegate {
     
     var _viewModel: AccountDetailViewModel
     var _accountDetailView: AccountDetailView
+    var _kdbxDatabase: KDBX? = nil
     
     init(viewModel: AccountDetailViewModel) {
         _viewModel = viewModel
@@ -29,10 +32,44 @@ class AccountDetailViewController: UIViewController, UITableViewDelegate, UITabl
             _accountDetailView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ]
         NSLayoutConstraint.activate(accountDetailViewLayout)
+        
+        self.navigationItem.rightBarButtonItem = .init(barButtonSystemItem: .edit, target: self, action: #selector(self.didTapEdit))
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    func didCreateEntry(_ entry: EntryXML) {
+        guard let kdbdb = self._kdbxDatabase else {
+            let alert = UIAlertController(title: "Unable to Save Entry", message: "Something Went Wrong", preferredStyle: .alert)
+            alert.addAction(.init(title: "OK", style: .default))
+            self.present(alert, animated: true)
+            return
+        }
+        self._accountDetailView.reloadData()
+        Task.init {
+            do {
+                try await NetworkManager.shared?.saveKDBX(kdbdb)
+                let alert = UIAlertController(title: "Success!", message: "Saved New Entry", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            } catch {
+                print(error)
+                let alert = UIAlertController(title: "Unable to Save Entry", message: "Something Went Wrong", preferredStyle: .alert)
+                alert.addAction(.init(title: "OK", style: .default))
+                self.present(alert, animated: true)
+                return
+            }
+        }
+    }
+    
+    @objc func didTapEdit() {
+        let editViewController = AddAccountViewController.Editing(entry: self._viewModel.entry, accountImage: self._accountDetailView._viewModel.accountImage)
+        editViewController.delegate = self
+        self.navigationController?.show(editViewController, sender: self)
+        
     }
 }
 

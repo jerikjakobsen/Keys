@@ -592,8 +592,8 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				SERVER_BASE_URL = "http://localhost:26001";
-				SERVER_DOMAIN = localhost;
+				SERVER_BASE_URL = "http://euler:26001";
+				SERVER_DOMAIN = euler;
 				SERVER_KEY = PiqM5iVu9qSYNI3psJ8N8PwqQNPqUGhN;
 				"SERVER_KEY[arch=*]" = PiqM5iVu9qSYNI3psJ8N8PwqQNPqUGhN;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -650,8 +650,8 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
-				SERVER_BASE_URL = "http://localhost:26001";
-				SERVER_DOMAIN = localhost;
+				SERVER_BASE_URL = "http://euler:26001";
+				SERVER_DOMAIN = euler;
 				SERVER_KEY = PiqM5iVu9qSYNI3psJ8N8PwqQNPqUGhN;
 				"SERVER_KEY[arch=*]" = PiqM5iVu9qSYNI3psJ8N8PwqQNPqUGhN;
 				SWIFT_COMPILATION_MODE = wholemodule;

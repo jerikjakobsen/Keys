@@ -118,7 +118,9 @@ extension PasswordFeedViewController {
         let cell: AccountInfoCell = tableView.cellForRow(at: indexPath) as! AccountInfoCell
         cell.didSelectCell()
         let accountDetailViewModel: AccountDetailViewModel = AccountDetailViewModel(entry: cell._viewModel.entry)
-        self.navigationController?.pushViewController(AccountDetailViewController(viewModel: accountDetailViewModel), animated: true)
+        let advc = AccountDetailViewController(viewModel: accountDetailViewModel)
+        advc._kdbxDatabase = self._kdbxDatabase
+        self.navigationController?.pushViewController(advc, animated: true)
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
