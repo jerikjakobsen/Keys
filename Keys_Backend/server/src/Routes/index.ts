@@ -1,11 +1,5 @@
-import login from "./Login";
-import createAccount from "./CreateAccount";
-import updateKDBX from "./UpdateKDBX";
-import getKDBX from './GetKDBX'
+import { router as AuthenticationRouter } from "./Authentication/AuthenticationRouter";
+import { router as VaultRouter } from "./Vault/VaultRouter";
 
-export {
-    login,
-    createAccount,
-    updateKDBX,
-    getKDBX
-}
+export { AuthenticationRouter, VaultRouter };
+
